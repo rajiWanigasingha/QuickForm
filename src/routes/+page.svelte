@@ -3,6 +3,8 @@
 	import { TextState } from '$lib/components/Text/TextState.svelte.js';
 	import QuickFormBuilder from '$lib/compileFormSchema/QuickFormBuilder.svelte';
 	import { TextValidation } from '$lib/components/Text/Text.validation.js';
+	import { NumberState } from '$lib/components/Numbers/NumberState.svelte.js';
+	import { NumberValidation } from '$lib/components/Numbers/Number.validation.js';
 
 	class nameInput extends TextState {
 		override validation() {
@@ -10,13 +12,21 @@
 		}
 	}
 
-	class emailInput extends TextState {
+	class emailInput extends TextState {}
+
+	class ageInput extends NumberState {
+		override validation() {
+			return new NumberValidation(this.number).min(18).max(100);
+		}
 	}
 
-	const quickForm: QuickFormSchema = new Map([
+	const entries: [string, TextState | NumberState][] = [
 		['name', new nameInput('Name', 'Enter your name', 'Name')],
-		['email', new emailInput('Email', 'Enter your email', 'Email')]
-	]);
+		['email', new emailInput('Email', 'Enter your email', 'Email')],
+		['age', new ageInput('Age', 'Enter your age', 'Age')]
+	];
+
+	const quickForm: QuickFormSchema = new Map(entries);
 
 
 	console.log(quickForm);

@@ -7,7 +7,7 @@
 
 <div class="flex flex-col p-3 gap-2">
 	<label for="{textState.getLabel()}">{textState.getLabel()}</label>
-	<input type="text" name="{name}" bind:value="{inputValue}" onfocusout={() => textState.setText(inputValue)}>
+	<input type="text" name="{name}" bind:value={inputValue} onfocusout={() => textState.setText(inputValue)}>
 	{#if textState.errors === ""}
 		<label for="">{textState.getHelper()}</label>
 	{:else}
