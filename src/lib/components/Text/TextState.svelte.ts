@@ -2,6 +2,7 @@ import { QuickForms } from '$lib/components/FormStateInterface.js';
 
 export class TextState extends QuickForms {
 	protected text: string = "";
+	errors: string = $state("");
 
 	constructor(label: string, helper: string, placeholder: string) {
 		super(label, helper, placeholder);
@@ -22,7 +23,14 @@ export class TextState extends QuickForms {
 
 		this.text = this.preProcess()
 
-		this.validation()
+		try {
+			this.validation()
+		} catch (e : unknown) {
+			this.errors = e instanceof Error ? e.message : "Unknown error."
+			return
+		}
+
+		this.errors = "";
 
 		this.text = this.postProcess()
 	}

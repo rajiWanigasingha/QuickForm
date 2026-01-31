@@ -2,12 +2,11 @@
 	import type { QuickFormSchema } from '$lib/types/schema.js';
 	import { TextState } from '$lib/components/Text/TextState.svelte.js';
 	import QuickFormBuilder from '$lib/compileFormSchema/QuickFormBuilder.svelte';
+	import { TextValidation } from '$lib/components/Text/Text.validation.js';
 
 	class nameInput extends TextState {
 		override validation() {
-			if (this.text.length < 3) {
-				throw new Error('Name must be at least 3 characters long');
-			}
+			return new TextValidation(this.text).minLength(3).maxLength(10);
 		}
 	}
 
