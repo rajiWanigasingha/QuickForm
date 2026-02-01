@@ -5,6 +5,8 @@
 	import { TextValidation } from '$lib/components/Text/Text.validation.js';
 	import { NumberState } from '$lib/components/Numbers/NumberState.svelte.js';
 	import { NumberValidation } from '$lib/components/Numbers/Number.validation.js';
+	import { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
+	import { BooleanValidation } from '$lib/components/Boolean/Boolean.validation.js';
 
 	class nameInput extends TextState {
 		override validation() {
@@ -20,10 +22,17 @@
 		}
 	}
 
-	const entries: [string, TextState | NumberState][] = [
+	class saveButton extends BooleanState {
+		override validation() {
+			return new BooleanValidation(this.boolean).mustBeTrue();
+		}
+	}
+
+	const entries: [string, TextState | NumberState | BooleanState][] = [
 		['name', new nameInput('Name', 'Enter your name', 'Name')],
 		['email', new emailInput('Email', 'Enter your email', 'Email')],
-		['age', new ageInput('Age', 'Enter your age', 'Age')]
+		['age', new ageInput('Age', 'Enter your age', 'Age')],
+		['save',new saveButton('Save This Information', 'Check this, if you need to save these', '')]
 	];
 
 	const quickForm: QuickFormSchema = new Map(entries);

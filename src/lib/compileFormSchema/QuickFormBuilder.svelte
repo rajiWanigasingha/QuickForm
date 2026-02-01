@@ -4,6 +4,8 @@
 	import Text from '$lib/components/Text/Text.svelte';
 	import Number from '$lib/components/Numbers/Number.svelte';
 	import { NumberState } from '$lib/components/Numbers/NumberState.svelte.js';
+	import { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
+	import Boolean from '$lib/components/Boolean/Boolean.svelte';
 
 	let { schema }: { schema: QuickFormSchema } = $props();
 </script>
@@ -14,5 +16,7 @@
 		<Text textState={schemaField} name={field}/>
 	{:else if schemaField instanceof NumberState && schemaField !== undefined}
 		<Number numberState={schemaField} name={field}/>
+	{:else if schemaField instanceof BooleanState && schemaField !== undefined}
+		<Boolean booleanState={schemaField} name={field}/>
 	{/if}
 {/each}
