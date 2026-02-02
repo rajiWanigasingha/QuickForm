@@ -5,4 +5,6 @@ import type { ChoicesState } from '$lib/components/Choices/ChoicesState.svelte.j
 
 export type Choices = { key: string; value: boolean; title: string; helper?: string }[];
 
+export type Selects = { label: string; value: string; }[];
+
 export type QuickFormSchema = Map<string, TextState | NumberState | BooleanState | ChoicesState>;
