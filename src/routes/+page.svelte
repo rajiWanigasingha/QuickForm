@@ -38,9 +38,21 @@
 	}
 
 	const entries: [string, TextState | NumberState | BooleanState | ChoicesState | SelectState][] = [
-		['name', new nameInput('Name', 'Enter your name', 'Name')],
-		['email', new emailInput('Email', 'Enter your email', 'Email')],
-		['age', new ageInput('Age', 'Enter your age', 'Age')],
+		['name', new nameInput({
+			label: "Enter your name",
+			helper: 'Enter your first name then last name',
+			placeholder: 'John wick',
+		})],
+		['email', new emailInput({
+			label: "Enter your email",
+			helper: 'Enter your email address. It must be valid',
+			placeholder: 'sample@gmail.com',
+		})],
+		['age', new ageInput({
+			label: "Enter your mobile number",
+			helper: 'Mobile number must begin with 0, not country code',
+			placeholder: '0773451221',
+		})],
 		['save', new saveButton('Save This Information', 'Check this, if you need to save these', '')],
 		['gender', new genderInput('Choose the gender', 'select your gender', [{
 				key: 'male',

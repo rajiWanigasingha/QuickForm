@@ -1,11 +1,12 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
+import type { QuickFormNumberInput } from '$lib/types/schema.js';
 
 export class NumberState extends QuickForms {
 	protected number: string = '';
 	errors: string = $state('');
 
-	constructor(label: string, helper: string, placeholder: string) {
-		super(label, helper, placeholder);
+	constructor(init: QuickFormNumberInput) {
+		super(init.label, init.helper, init.placeholder);
 	}
 
 	validation() {}

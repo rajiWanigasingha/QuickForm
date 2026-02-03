@@ -9,3 +9,15 @@ export type Choices = { key: string; value: boolean; title: string; helper?: str
 export type Selects = { label: string; value: string; }[];
 
 export type QuickFormSchema = Map<string, TextState | NumberState | BooleanState | ChoicesState | SelectState>;
+
+export type QuickFormTextInput = {
+	label: string;
+	helper: string;
+	placeholder: string
+}
+
+export type QuickFormNumberInput = {
+	label: string;
+	helper: string;
+	placeholder: string
+}

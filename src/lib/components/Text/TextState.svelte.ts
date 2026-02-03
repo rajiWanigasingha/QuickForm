@@ -1,11 +1,12 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
+import type { QuickFormTextInput } from '$lib/types/schema.js';
 
 export class TextState extends QuickForms {
 	protected text: string = "";
 	errors: string = $state("");
 
-	constructor(label: string, helper: string, placeholder: string) {
-		super(label, helper, placeholder);
+	constructor(init: QuickFormTextInput) {
+		super(init.label, init.helper, init.placeholder);
 	}
 
 	validation() {}

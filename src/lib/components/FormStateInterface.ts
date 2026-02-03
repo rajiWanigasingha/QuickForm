@@ -1,7 +1,7 @@
 export abstract class QuickForms {
-	private label: string = "";
-	private helper: string = "";
-	private placeholder: string = "";
+	private readonly label: string = "";
+	private readonly helper: string = "";
+	private readonly placeholder: string = "";
 
 	protected constructor(label: string, helper: string, placeholder: string) {
 		this.label = label;
@@ -13,24 +13,12 @@ export abstract class QuickForms {
 		return this.label;
 	}
 
-	setLabel(label: string): void {
-		this.label = label;
-	}
-
 	getHelper(): string {
 		return this.helper;
 	}
 
-	setHelper(helper: string): void {
-		this.helper = helper;
-	}
-
 	getPlaceholder(): string {
 		return this.placeholder;
-	}
-
-	setPlaceholder(placeholder: string): void {
-		this.placeholder = placeholder;
 	}
 
 }
