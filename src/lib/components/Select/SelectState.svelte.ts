@@ -10,11 +10,12 @@ export class SelectState extends QuickForms {
 	constructor(
 		label: string,
 		helper: string,
+		placeholder: string,
 		select: Selects,
 		multiple: boolean = false,
 		defaultSelect: string | null = null
 	) {
-		super(label, helper, "");
+		super(label, helper, placeholder);
 		this.select = select;
 		this.multiple = multiple;
 		this.defaultSelect = defaultSelect;

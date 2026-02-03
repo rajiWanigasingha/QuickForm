@@ -8,6 +8,7 @@
 	import { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
 	import { BooleanValidation } from '$lib/components/Boolean/Boolean.validation.js';
 	import { ChoicesState } from '$lib/components/Choices/ChoicesState.svelte.js';
+	import { SelectState } from '$lib/components/Select/SelectState.svelte.js';
 
 	class nameInput extends TextState {
 		override validation() {
@@ -33,7 +34,10 @@
 	class genderInput extends ChoicesState {
 	}
 
-	const entries: [string, TextState | NumberState | BooleanState | ChoicesState][] = [
+	class countryInput extends SelectState {
+	}
+
+	const entries: [string, TextState | NumberState | BooleanState | ChoicesState | SelectState][] = [
 		['name', new nameInput('Name', 'Enter your name', 'Name')],
 		['email', new emailInput('Email', 'Enter your email', 'Email')],
 		['age', new ageInput('Age', 'Enter your age', 'Age')],
@@ -46,13 +50,26 @@
 			}, { key: 'female', value: false, title: 'Female', helper: 'Gender is female' }],
 			false,
 			'male'
-		)]
+		)],
+		['country', new countryInput('Select Country', 'Select your country', 'Select Country', [
+				{ label: 'USA', value: 'USA' },
+				{ label: 'United Kingdom', value: 'UK' },
+				{ label: 'Canada', value: 'CA' },
+				{ label: 'Germany', value: 'DE' },
+				{ label: 'France', value: 'FR' },
+				{ label: 'Italy', value: 'IT' },
+				{ label: 'Spain', value: 'ES' },
+				{ label: 'Australia', value: 'AU' },
+				{ label: 'Japan', value: 'JP' },
+				{ label: 'China', value: 'CN' },
+				{ label: 'India', value: 'IN' },
+				{ label: 'Brazil', value: 'BR' }
+			],
+			true,
+			'USA')]
 	];
 
 	const quickForm: QuickFormSchema = new Map(entries);
-
-
-	console.log(quickForm);
 
 </script>
 

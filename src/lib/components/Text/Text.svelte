@@ -5,12 +5,19 @@
 	let inputValue = $state('');
 </script>
 
-<div class="flex flex-col p-3 gap-2">
-	<label for="{textState.getLabel()}">{textState.getLabel()}</label>
-	<input type="text" name="{name}" bind:value={inputValue} onfocusout={() => textState.setText(inputValue)}>
+<div class="flex flex-col p-3 gap-1">
+	<label for="{textState.getLabel()}" class="text-sm font-medium">{textState.getLabel()}</label>
+	<input
+		type="text"
+		name="{name}"
+		bind:value={inputValue}
+		placeholder={textState.getPlaceholder()}
+		onfocusout={() => textState.setText(inputValue)}
+		class="border rounded-md bg-black/10 placeholder:text-black/70 text-sm"
+	>
 	{#if textState.errors === ""}
-		<label for="">{textState.getHelper()}</label>
+		<label for="" class="text-xs font-base">{textState.getHelper()}</label>
 	{:else}
-		<label for="">{textState.errors}</label>
+		<label for="" class="text-xs font-base text-red-600">{textState.errors}</label>
 	{/if}
 </div>

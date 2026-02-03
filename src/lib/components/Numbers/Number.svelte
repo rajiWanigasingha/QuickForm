@@ -16,11 +16,19 @@
 </script>
 
 <div class="flex flex-col p-3 gap-2">
-	<label for="{numberState.getLabel()}">{numberState.getLabel()}</label>
-	<input type="text" name="{name}" bind:value={inputValue} oninput={(e) => {rejectCharacter(e.currentTarget.value)}} onfocusout={() => numberState.setNumber(inputValue)}>
+	<label for="{numberState.getLabel()}" class="text-sm font-medium">{numberState.getLabel()}</label>
+	<input
+		type="text"
+		name="{name}"
+		bind:value={inputValue}
+		oninput={(e) => {rejectCharacter(e.currentTarget.value)}}
+		onfocusout={() => numberState.setNumber(inputValue)}
+		placeholder={numberState.getPlaceholder()}
+		class="border rounded-md bg-black/10 placeholder:text-black/70 text-sm"
+	>
 	{#if numberState.errors === ""}
-		<label for="">{numberState.getHelper()}</label>
+		<label for="" class="text-xs font-base">{numberState.getHelper()}</label>
 	{:else}
-		<label for="">{numberState.errors}</label>
+		<label for="" class="text-xs font-base text-red-600">{numberState.errors}</label>
 	{/if}
 </div>
