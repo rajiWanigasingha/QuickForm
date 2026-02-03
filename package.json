@@ -1,6 +1,10 @@
 {
 	"name": "quickform",
-	"version": "0.0.1",
+	"version": "0.0.1-dev",
+	"description": "Way to build complex dynamic forms declaratively. Giving real time validation, pre-processing and post-processing.",
+	"homepage": "https://github.com/rajiWanigasingha/QuickForm.git",
+	"email": "rajindawanigasingha@gmail.com",
+	"license": "MIT",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run prepack",
