@@ -1,11 +1,12 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
+import type { QuickFormBooleanInput } from '$lib/types/schema.js';
 
 export class BooleanState extends QuickForms {
 	protected boolean: boolean = false;
 	errors: string = $state('');
 
-	constructor(label: string, helper: string, placeholder: string) {
-		super(label, helper, placeholder);
+	constructor(init: QuickFormBooleanInput) {
+		super(init.label, init.helper ,'');
 	}
 
 	validation() {}

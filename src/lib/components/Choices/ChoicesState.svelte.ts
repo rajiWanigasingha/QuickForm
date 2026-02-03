@@ -1,5 +1,5 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
-import type { Choices } from '$lib/types/schema.js';
+import type { Choices, QuickFormChoiceInput } from '$lib/types/schema.js';
 
 export class ChoicesState extends QuickForms {
 	protected choices: Choices = [];
@@ -7,17 +7,11 @@ export class ChoicesState extends QuickForms {
 	defaultSelect: string | null = null;
 	errors: string = $state('');
 
-	constructor(
-		label: string,
-		helper: string,
-		choices: Choices,
-		multiple: boolean = false,
-		defaultSelect: string | null = null
-	) {
-		super(label, helper, "");
-		this.choices = choices;
-		this.multiple = multiple;
-		this.defaultSelect = defaultSelect;
+	constructor(init: QuickFormChoiceInput) {
+		super(init.label, '', '');
+		this.choices = init.choices;
+		this.multiple = init.multiple;
+		this.defaultSelect = init.defaultSelect;
 	}
 
 	validation() {}

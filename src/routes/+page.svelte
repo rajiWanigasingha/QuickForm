@@ -53,17 +53,34 @@
 			helper: 'Mobile number must begin with 0, not country code',
 			placeholder: '0773451221',
 		})],
-		['save', new saveButton('Save This Information', 'Check this, if you need to save these', '')],
-		['gender', new genderInput('Choose the gender', 'select your gender', [{
-				key: 'male',
-				value: false,
-				title: 'Male',
-				helper: 'Gender is male'
-			}, { key: 'female', value: false, title: 'Female', helper: 'Gender is female' }],
-			false,
-			'male'
-		)],
-		['country', new countryInput('Select Country', 'Select your country', 'Select Country', [
+		['save', new saveButton({
+			label: "Save your data",
+			helper: 'When you check this box, you agree to our terms and conditions',
+		})],
+		['gender', new genderInput({
+			label: "Select your gender",
+			multiple: false,
+			choices: [
+				{
+					title: "Male",
+					helper: "Gender is male",
+					key: "male",
+					value: false
+				},
+				{
+					title: "Female",
+					helper: "Gender is female",
+					key: "female",
+					value: false
+				}
+			],
+			defaultSelect: 'male'
+		})],
+		['country', new countryInput({
+			label: 'Select Country',
+			helper: 'Select your country',
+			placeholder: 'Select Country',
+			select: [
 				{ label: 'USA', value: 'USA' },
 				{ label: 'United Kingdom', value: 'UK' },
 				{ label: 'Canada', value: 'CA' },
@@ -77,8 +94,9 @@
 				{ label: 'India', value: 'IN' },
 				{ label: 'Brazil', value: 'BR' }
 			],
-			true,
-			'USA')]
+			multiple: true,
+			defaultSelect: 'USA'
+		})]
 	];
 
 	const quickForm: QuickFormSchema = new Map(entries);

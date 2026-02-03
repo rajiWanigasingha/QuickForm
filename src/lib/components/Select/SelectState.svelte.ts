@@ -1,5 +1,5 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
-import type { Selects } from '$lib/types/schema.js';
+import type { QuickFormSelectInput, Selects } from '$lib/types/schema.js';
 
 export class SelectState extends QuickForms {
 	protected select: Selects = [];
@@ -7,18 +7,11 @@ export class SelectState extends QuickForms {
 	defaultSelect: string | null = null;
 	errors: string = $state('');
 
-	constructor(
-		label: string,
-		helper: string,
-		placeholder: string,
-		select: Selects,
-		multiple: boolean = false,
-		defaultSelect: string | null = null
-	) {
-		super(label, helper, placeholder);
-		this.select = select;
-		this.multiple = multiple;
-		this.defaultSelect = defaultSelect;
+	constructor(init: QuickFormSelectInput) {
+		super(init.label, init.helper, init.placeholder);
+		this.select = init.select;
+		this.multiple = init.multiple;
+		this.defaultSelect = init.defaultSelect;
 	}
 
 	validation() {}
@@ -39,7 +32,7 @@ export class SelectState extends QuickForms {
 			return;
 		}
 
-		this.select[foundIndex] = { ...this.select[foundIndex] ,value };
+		this.select[foundIndex] = { ...this.select[foundIndex], value };
 
 		this.select = this.preProcess();
 
