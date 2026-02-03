@@ -73,4 +73,7 @@
 
 </script>
 
-<QuickFormBuilder schema={quickForm} />
+<div class="mx-64 my-16 p-4 bg-gray-100 rounded-lg">
+	<p class="text-lg font-semibold">File the form</p>
+	<QuickFormBuilder schema={quickForm} />
+</div>

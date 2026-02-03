@@ -37,13 +37,13 @@
 </script>
 
 <div class="flex flex-col p-3 gap-2">
-	<label for="{choices.getLabel()}">{choices.getLabel()}</label>
+	<label for="{choices.getLabel()}" class="text-sm font-medium">{choices.getLabel()}</label>
 
-	<div>
+	<div class="flex flex-col gap-2">
 		{#each inputValues as choice ,index (choice.key)}
-			<div class="flex justify-between items-center">
+			<div class="flex flex-row justify-between items-center bg-gray-300 border border-gray-300/70 rounded-md p-2">
 				<div>
-					<p>{values[index].title}</p>
+					<p class="text-sm">{values[index].title}</p>
 					<p class="text-xs">{values[index].helper}</p>
 				</div>
 				<input type="checkbox" name="{name}" bind:checked={choice.value} onchange={(e) => checkChoices(choice.key ,e.currentTarget.checked)} id="{choice.key}">
@@ -51,9 +51,7 @@
 		{/each}
 	</div>
 
-	{#if choices.errors === ""}
-		<label for="">{choices.getHelper()}</label>
-	{:else}
-		<label for="">{choices.errors}</label>
+	{#if choices.errors !== ""}
+		<label for="" class="text-xs text-red-600">{choices.errors}</label>
 	{/if}
 </div>

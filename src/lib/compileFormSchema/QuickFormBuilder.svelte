@@ -14,17 +14,19 @@
 	let { schema }: { schema: QuickFormSchema } = $props();
 </script>
 
-{#each schema.keys() as field ,index (index)}
-	{@const schemaField = schema.get(field)}
-	{#if schemaField instanceof TextState && schemaField !== undefined}
-		<Text textState={schemaField} name={field}/>
-	{:else if schemaField instanceof NumberState && schemaField !== undefined}
-		<Number numberState={schemaField} name={field}/>
-	{:else if schemaField instanceof BooleanState && schemaField !== undefined}
-		<Boolean booleanState={schemaField} name={field}/>
-	{:else if schemaField instanceof ChoicesState && schemaField !== undefined}
-		<Choices choices={schemaField} name={field}/>
-	{:else if schemaField instanceof SelectState && schemaField !== undefined}
-		<Select select={schemaField} name={field}/>
-	{/if}
-{/each}
+<div class="flex flex-col gap-1">
+	{#each schema.keys() as field ,index (index)}
+		{@const schemaField = schema.get(field)}
+		{#if schemaField instanceof TextState && schemaField !== undefined}
+			<Text textState={schemaField} name={field}/>
+		{:else if schemaField instanceof NumberState && schemaField !== undefined}
+			<Number numberState={schemaField} name={field}/>
+		{:else if schemaField instanceof BooleanState && schemaField !== undefined}
+			<Boolean booleanState={schemaField} name={field}/>
+		{:else if schemaField instanceof ChoicesState && schemaField !== undefined}
+			<Choices choices={schemaField} name={field}/>
+		{:else if schemaField instanceof SelectState && schemaField !== undefined}
+			<Select select={schemaField} name={field}/>
+		{/if}
+	{/each}
+</div>

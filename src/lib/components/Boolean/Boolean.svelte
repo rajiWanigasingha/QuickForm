@@ -6,11 +6,78 @@
 </script>
 
 <div class="flex flex-col p-3 gap-2">
-	<label for="{booleanState.getLabel()}">{booleanState.getLabel()}</label>
-	<input type="checkbox" name="{name}" bind:checked={inputValue} onfocusout={() => booleanState.setBoolean(inputValue)}>
-	{#if booleanState.errors === ""}
-		<label for="">{booleanState.getHelper()}</label>
-	{:else}
-		<label for="">{booleanState.errors}</label>
+	<div class="flex flex-row justify-between items-center">
+		<div class="flex flex-col gap-1">
+			<label for="{booleanState.getLabel()}" class="text-sm font-medium">{booleanState.getLabel()}</label>
+			<label for="" class="text-xs">{booleanState.getHelper()}</label>
+		</div>
+		<div>
+			<label class="switch">
+				<input type="checkbox" name="{name}" bind:checked={inputValue} onfocusout={() => booleanState.setBoolean(inputValue)}>
+				<span class="slider round"></span>
+			</label>
+		</div>
+	</div>
+	{#if booleanState.errors !== ""}
+		<label for="" class="text-xs text-red-600">{booleanState.errors}</label>
 	{/if}
 </div>
+
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 40px;
+        height: 24px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 24px;
+        width: 24px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(16px);
+        -ms-transform: translateX(16px);
+        transform: translateX(16px);
+    }
+
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
