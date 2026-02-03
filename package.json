@@ -1,5 +1,5 @@
 {
-	"name": "quickform",
+	"name": "@rajinda_wanigasingha/quickform",
 	"version": "0.0.1-dev",
 	"description": "Way to build complex dynamic forms declaratively. Giving real time validation, pre-processing and post-processing.",
 	"homepage": "https://github.com/rajiWanigasingha/QuickForm.git",
@@ -71,6 +71,7 @@
 		"vitest-browser-svelte": "^2.0.2"
 	},
 	"keywords": [
-		"svelte"
+		"svelte",
+		"forms"
 	]
 }

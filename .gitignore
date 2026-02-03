@@ -2,6 +2,7 @@ test-results
 node_modules
 
 # Output
+.npmrc
 .output
 .vercel
 .netlify
