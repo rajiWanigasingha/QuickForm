@@ -16,8 +16,7 @@
 		}
 	}
 
-	class emailInput extends TextState {
-	}
+	class emailInput extends TextState {}
 
 	class ageInput extends NumberState {
 		override validation() {
@@ -31,11 +30,9 @@
 		}
 	}
 
-	class genderInput extends ChoicesState {
-	}
+	class genderInput extends ChoicesState {}
 
-	class countryInput extends SelectState {
-	}
+	class countryInput extends SelectState {}
 
 	const entries: [string, TextState | NumberState | BooleanState | ChoicesState | SelectState][] = [
 		['name', new nameInput({

@@ -1,65 +1,119 @@
-# Svelte library
+# QuickForm
 
-Everything you need to build a Svelte library, powered by [`sv`](https://npmjs.com/package/sv).
+Why to build complex dynamic forms declaratively. Using schema and classes for fields of inputs giving real time validation,
+pre-processing and post-processing.
 
-Read more about creating a library [in the docs](https://svelte.dev/docs/kit/packaging).
+![img.png](static/img.png)
 
-## Creating a project
+```ts
+<script lang="ts">
+	import type { QuickFormSchema } from '$lib/types/schema.js';
+	import { TextState } from '$lib/components/Text/TextState.svelte.js';
+	import QuickFormBuilder from '$lib/compileFormSchema/QuickFormBuilder.svelte';
+	import { TextValidation } from '$lib/components/Text/Text.validation.js';
+	import { NumberState } from '$lib/components/Numbers/NumberState.svelte.js';
+	import { NumberValidation } from '$lib/components/Numbers/Number.validation.js';
+	import { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
+	import { BooleanValidation } from '$lib/components/Boolean/Boolean.validation.js';
+	import { ChoicesState } from '$lib/components/Choices/ChoicesState.svelte.js';
+	import { SelectState } from '$lib/components/Select/SelectState.svelte.js';
 
-If you're seeing this, you've probably already done this step. Congrats!
+	class nameInput extends TextState {
+		override validation() {
+			return new TextValidation(this.text).minLength(3).maxLength(10);
+		}
+	}
 
-```sh
-# create a new project in the current directory
-npx sv create
+	class emailInput extends TextState {}
 
-# create a new project in my-app
-npx sv create my-app
+	class ageInput extends NumberState {
+		override validation() {
+			return new NumberValidation(this.number).min(18).max(100);
+		}
+	}
+
+	class saveButton extends BooleanState {
+		override validation() {
+			return new BooleanValidation(this.boolean).mustBeTrue();
+		}
+	}
+
+	class genderInput extends ChoicesState {}
+
+	class countryInput extends SelectState {}
+
+	const entries: [string, TextState | NumberState | BooleanState | ChoicesState | SelectState][] = [
+		['name', new nameInput({
+			label: "Enter your name",
+			helper: 'Enter your first name then last name',
+			placeholder: 'John wick',
+		})],
+		['email', new emailInput({
+			label: "Enter your email",
+			helper: 'Enter your email address. It must be valid',
+			placeholder: 'sample@gmail.com',
+		})],
+		['age', new ageInput({
+			label: "Enter your mobile number",
+			helper: 'Mobile number must begin with 0, not country code',
+			placeholder: '0773451221',
+		})],
+		['save', new saveButton({
+			label: "Save your data",
+			helper: 'When you check this box, you agree to our terms and conditions',
+		})],
+		['gender', new genderInput({
+			label: "Select your gender",
+			multiple: false,
+			choices: [
+				{
+					title: "Male",
+					helper: "Gender is male",
+					key: "male",
+					value: false
+				},
+				{
+					title: "Female",
+					helper: "Gender is female",
+					key: "female",
+					value: false
+				}
+			],
+			defaultSelect: 'male'
+		})],
+		['country', new countryInput({
+			label: 'Select Country',
+			helper: 'Select your country',
+			placeholder: 'Select Country',
+			select: [
+				{ label: 'USA', value: 'USA' },
+				{ label: 'United Kingdom', value: 'UK' },
+				{ label: 'Canada', value: 'CA' },
+				{ label: 'Germany', value: 'DE' },
+				{ label: 'France', value: 'FR' },
+				{ label: 'Italy', value: 'IT' },
+				{ label: 'Spain', value: 'ES' },
+				{ label: 'Australia', value: 'AU' },
+				{ label: 'Japan', value: 'JP' },
+				{ label: 'China', value: 'CN' },
+				{ label: 'India', value: 'IN' },
+				{ label: 'Brazil', value: 'BR' }
+			],
+			multiple: true,
+			defaultSelect: 'USA'
+		})]
+	];
+	const quickForm: QuickFormSchema = new Map(entries);
+</script>
+```
+```sveltehtml
+<div class="mx-64 my-16 p-4 bg-gray-100 rounded-lg">
+	<p class="text-lg font-semibold">File the form</p>
+	<QuickFormBuilder schema={quickForm} />
+</div>
 ```
 
-To recreate this project with the same configuration:
+## Why use classes
 
-```sh
-# recreate this project
-bun x sv create --template library --types ts --add prettier eslint vitest="usages:unit,component" playwright tailwindcss="plugins:typography,forms" --install bun ./QuickForm
-```
+Because it gives you full control over the state of the form, validation, processing in the same place. This makes complex forms easy to work with.
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
-
-## Building
-
-To build your library:
-
-```sh
-npm pack
-```
-
-To create a production version of your showcase app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-
-## Publishing
-
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```sh
-npm publish
-```
