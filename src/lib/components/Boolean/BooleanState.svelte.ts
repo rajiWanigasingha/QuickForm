@@ -1,39 +1,35 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
-import type { QuickFormBooleanInput } from '$lib/types/schema.js';
+import type { QuickFormBooleanInput, QuickFormBooleanInputActions } from '$lib/types/schema.js';
 
 export class BooleanState extends QuickForms {
 	protected boolean: boolean = false;
 	errors: string = $state('');
 
-	constructor(init: QuickFormBooleanInput) {
+	constructor(init: QuickFormBooleanInput ,private process: QuickFormBooleanInputActions | null = null) {
 		super(init.label, init.helper ,'');
-	}
-
-	validation() {}
-
-	preProcess() {
-		return this.boolean;
-	}
-
-	postProcess() {
-		return this.boolean;
 	}
 
 	setBoolean(bool: boolean) {
 		this.boolean = bool;
 
-		this.boolean = this.preProcess();
+		if (this.process?.preProcess !== undefined) {
+			this.boolean = this.process.preProcess();
+		}
 
-		try {
-			this.validation();
-		} catch (e: unknown) {
-			this.errors = e instanceof Error ? e.message : 'Unknown error.';
-			return;
+		if (this.process?.validation !== undefined) {
+			try {
+				this.process.validation.isOk(this.boolean);
+			} catch (e: unknown) {
+				this.errors = e instanceof Error ? e.message : 'Unknown error.';
+				return;
+			}
 		}
 
 		this.errors = '';
 
-		this.boolean = this.postProcess();
+		if (this.process?.postProcess !== undefined) {
+			this.boolean = this.process.postProcess();
+		}
 	}
 
 	getBoolean() {

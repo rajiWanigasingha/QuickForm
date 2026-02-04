@@ -86,5 +86,35 @@ export class NumberValidationObj {
 	}
 }
 
+export class BooleanValidationObj {
+
+	private checks: {checker: (val: boolean) => boolean, err: string}[] = [];
+
+	private clone() {
+		const newObj = new BooleanValidationObj();
+		newObj.checks = [...this.checks];
+		return newObj;
+	}
+
+	mustBeTrue(err: string = 'This field must be true') {
+		const newObj = this.clone();
+		newObj.checks.push({checker: (val) => val, err});
+		return newObj;
+	}
+
+	mustBeFalse(err: string = 'This field must be false') {
+		const newObj = this.clone();
+		newObj.checks.push({checker: (val) => !val, err});
+		return newObj;
+	}
+
+	isOk(valueOfValidation: boolean) {
+		this.checks.forEach(check => {
+			if (!check.checker(valueOfValidation)) throw new Error(check.err);
+		})
+	}
+}
+
 export const QVText = new TextValidationObj();
 export const QVNumber = new NumberValidationObj();
+export const QVBoolean = new BooleanValidationObj();

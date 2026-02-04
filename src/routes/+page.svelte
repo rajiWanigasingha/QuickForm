@@ -1,9 +1,10 @@
 <script lang="ts">
 	import type { QuickFormInputs } from '$lib/types/schema.js';
-	import { TextState } from '$lib/components/Text/TextState.svelte.js';
 	import QuickFormBuilder from '$lib/compileFormSchema/QuickFormBuilder.svelte';
-	import { QVNumber, QVText } from '$lib/components/Validation/ValidationObj.js';
-	import { NumberState } from '$lib/components/Numbers/NumberState.svelte.ts';
+	import { QVBoolean, QVNumber, QVText } from '$lib/components/Validation/ValidationObj.js';
+	import { TextState } from '$lib/components/Text/TextState.svelte.js';
+	import { NumberState } from '$lib/components/Numbers/NumberState.svelte.js';
+	import { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
 
 	// class nameInput extends TextState {
 	// 	override validation() {
@@ -123,6 +124,18 @@
 				},
 				{
 					validation: QVNumber.min(18, 'You must be at least 18 years old').max(100, 'You must be at most 100 years old')
+				}
+			)
+		},
+		{
+			name: 'save',
+			input: new BooleanState(
+				{
+					label: 'Save your data',
+					helper: 'When you check this box, you agree to our terms and conditions'
+				},
+				{
+					validation: QVBoolean.mustBeTrue('You must agree to our terms and conditions')
 				}
 			)
 		}

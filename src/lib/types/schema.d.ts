@@ -3,7 +3,7 @@ import type { NumberState } from '$lib/components/Numbers/NumberState.svelte.js'
 import type { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
 import type { ChoicesState } from '$lib/components/Choices/ChoicesState.svelte.js';
 import type { SelectState } from '$lib/components/Select/SelectState.svelte.js';
-import  { NumberValidationObj, type TextValidationObj } from '$lib/components/Validation/ValidationObj.js';
+import  { BooleanValidationObj, NumberValidationObj, type TextValidationObj } from '$lib/components/Validation/ValidationObj.js';
 
 export type Choices = { key: string; value: boolean; title: string; helper?: string }[];
 
@@ -37,6 +37,13 @@ export type QuickFormBooleanInput = {
 	label: string;
 	helper: string;
 };
+
+export type QuickFormBooleanInputActions = {
+	validation?: BooleanValidationObj;
+	preProcess?: () => boolean;
+	postProcess?: () => boolean;
+}
+
 
 export type QuickFormChoiceInput = {
 	label: string;
