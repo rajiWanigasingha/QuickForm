@@ -2,7 +2,8 @@
 	import type { QuickFormInputs } from '$lib/types/schema.js';
 	import { TextState } from '$lib/components/Text/TextState.svelte.js';
 	import QuickFormBuilder from '$lib/compileFormSchema/QuickFormBuilder.svelte';
-	import { QVText } from '$lib/components/Validation/ValidationObj.js';
+	import { QVNumber, QVText } from '$lib/components/Validation/ValidationObj.js';
+	import { NumberState } from '$lib/components/Numbers/NumberState.svelte.ts';
 
 	// class nameInput extends TextState {
 	// 	override validation() {
@@ -100,7 +101,7 @@
 					helper: 'Enter your first name'
 				},
 				{
-					validation: QVText.minLength(4, "There must be at least 4 characters in your name").maxLength(30)
+					validation: QVText.minLength(4, 'There must be at least 4 characters in your name').maxLength(30)
 				}
 			)
 		},
@@ -111,6 +112,19 @@
 				placeholder: 'John',
 				helper: 'Enter your second name'
 			})
+		},
+		{
+			name: 'age',
+			input: new NumberState(
+				{
+					label: 'Enter your age',
+					placeholder: '25',
+					helper: 'Enter your age. It must be between 18 and 100'
+				},
+				{
+					validation: QVNumber.min(18, 'You must be at least 18 years old').max(100, 'You must be at most 100 years old')
+				}
+			)
 		}
 	];
 

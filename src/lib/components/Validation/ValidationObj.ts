@@ -45,4 +45,46 @@ export class TextValidationObj {
 	}
 }
 
+export class NumberValidationObj {
+
+	private checks: {checker: (val: number) => boolean, err: string}[] = [];
+
+	private clone() {
+		const newObj = new NumberValidationObj();
+		newObj.checks = [...this.checks];
+		return newObj;
+	}
+
+	min(num: number, err: string = 'Minimum value is ' + num) {
+		const newObj = this.clone();
+		newObj.checks.push({checker: (val) => val >= num, err});
+		return newObj;
+	}
+
+	max(num: number, err: string = 'Maximum value is ' + num) {
+		const newObj = this.clone();
+		newObj.checks.push({checker: (val) => val <= num, err});
+		return newObj;
+	}
+
+	lengthMustBe(num: number, err: string = 'Length must be ' + num) {
+		const newObj = this.clone();
+		newObj.checks.push({checker: (val) => val.toString().length === num, err});
+		return newObj;
+	}
+
+	isRegex(regex: RegExp, err: string = 'Invalid format') {
+		const newObj = this.clone();
+		newObj.checks.push({checker: (val) => regex.test(val.toString()), err});
+		return newObj;
+	}
+
+	isOk(valueOfValidation: number) {
+		this.checks.forEach(check => {
+			if (!check.checker(valueOfValidation)) throw new Error(check.err);
+		})
+	}
+}
+
 export const QVText = new TextValidationObj();
+export const QVNumber = new NumberValidationObj();

@@ -1,39 +1,35 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
-import type { QuickFormNumberInput } from '$lib/types/schema.js';
+import type { QuickFormNumberInput, QuickFormNumberInputActions } from '$lib/types/schema.js';
 
 export class NumberState extends QuickForms {
-	protected number: string = '';
 	errors: string = $state('');
+	protected number: string = '';
 
-	constructor(init: QuickFormNumberInput) {
+	constructor(init: QuickFormNumberInput ,private process: QuickFormNumberInputActions | null = null) {
 		super(init.label, init.helper, init.placeholder);
-	}
-
-	validation() {}
-
-	preProcess(): string {
-		return this.number;
-	}
-
-	postProcess() {
-		return this.number;
 	}
 
 	setNumber(number: string) {
 		this.number = number;
 
-		this.number = this.preProcess();
+		if (this.process?.preProcess !== undefined) {
+			this.number = this.process.preProcess().toString()
+		}
 
-		try {
-			this.validation();
-		} catch (e: unknown) {
-			this.errors = e instanceof Error ? e.message : 'Unknown error.';
-			return;
+		if (this.process?.validation !== undefined) {
+			try {
+				this.process.validation.isOk(Number(this.number));
+			} catch (e: unknown) {
+				this.errors = e instanceof Error ? e.message : 'Unknown error.';
+				return;
+			}
 		}
 
 		this.errors = '';
 
-		this.number = this.postProcess();
+		if (this.process?.postProcess !== undefined) {
+			this.number = this.process.postProcess().toString();
+		}
 	}
 
 	getNumber() {

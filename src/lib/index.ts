@@ -8,7 +8,6 @@ export { ChoicesState } from './components/Choices/ChoicesState.svelte.js';
 export { SelectState } from './components/Select/SelectState.svelte.js';
 
 // Export validations
-export { TextValidation } from './components/Text/Text.validation.js';
 export { NumberValidation } from './components/Numbers/Number.validation.js';
 export { BooleanValidation } from './components/Boolean/Boolean.validation.js';
 
