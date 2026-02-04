@@ -1,17 +1,19 @@
 // Export all component states
-export { TextState } from '$lib/components/Text/TextState.svelte.js';
-export { NumberState } from '$lib/components/Numbers/NumberState.svelte.js';
-export { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
-export { ChoicesState } from '$lib/components/Choices/ChoicesState.svelte.js';
-export { SelectState } from '$lib/components/Select/SelectState.svelte.js';
+import './index.css'
+export { QuickForms } from './components/FormStateInterface.js';
+export { TextState } from './components/Text/TextState.svelte.js';
+export { NumberState } from './components/Numbers/NumberState.svelte.js';
+export { BooleanState } from './components/Boolean/BooleanState.svelte.js';
+export { ChoicesState } from './components/Choices/ChoicesState.svelte.js';
+export { SelectState } from './components/Select/SelectState.svelte.js';
 
-// Export all validations
-export { TextValidation } from '$lib/components/Text/Text.validation.js';
-export { NumberValidation } from '$lib/components/Numbers/Number.validation.js';
-export { BooleanValidation } from '$lib/components/Boolean/Boolean.validation.js';
+// Export validations
+export { TextValidation } from './components/Text/Text.validation.js';
+export { NumberValidation } from './components/Numbers/Number.validation.js';
+export { BooleanValidation } from './components/Boolean/Boolean.validation.js';
 
-// Export QuickFormBuilder component
-export { default as QuickFormBuilder } from '$lib/compileFormSchema/QuickFormBuilder.svelte';
+// Export component
+export { default as QuickFormBuilder } from './compileFormSchema/QuickFormBuilder.svelte';
 
 // Export types
-export type * from '$lib/types/schema.js';
+export type * from './types/schema.js';
