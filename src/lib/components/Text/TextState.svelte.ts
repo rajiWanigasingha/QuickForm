@@ -1,39 +1,35 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
-import type { QuickFormTextInput } from '$lib/types/schema.js';
+import type { QuickFormTextInput, QuickFormTextInputActions } from '$lib/types/schema.js';
 
 export class TextState extends QuickForms {
 	protected text: string = "";
 	errors: string = $state("");
 
-	constructor(init: QuickFormTextInput) {
+	constructor(init: QuickFormTextInput ,private process: QuickFormTextInputActions | null = null) {
 		super(init.label, init.helper, init.placeholder);
-	}
-
-	validation() {}
-
-	preProcess(): string {
-		return this.text;
-	}
-
-	postProcess() {
-		return this.text;
 	}
 
 	setText(text: string) {
 		this.text = text;
 
-		this.text = this.preProcess()
+		if (this.process?.preProcess !== undefined) {
+			this.text = this.process.preProcess()
+		}
 
-		try {
-			this.validation()
-		} catch (e : unknown) {
-			this.errors = e instanceof Error ? e.message : "Unknown error."
-			return
+		if (this.process?.validation !== undefined) {
+			try {
+				this.process.validation.isOk(this.text)
+			} catch (e : unknown) {
+				this.errors = e instanceof Error ? e.message : "Unknown error."
+				return
+			}
 		}
 
 		this.errors = "";
 
-		this.text = this.postProcess()
+		if (this.process?.postProcess !== undefined) {
+			this.text = this.process.postProcess()
+		}
 	}
 
 	getText() {

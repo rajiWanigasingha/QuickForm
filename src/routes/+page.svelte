@@ -1,102 +1,118 @@
 <script lang="ts">
-	import type { QuickFormSchema } from '$lib/types/schema.js';
+	import type { QuickFormInputs } from '$lib/types/schema.js';
 	import { TextState } from '$lib/components/Text/TextState.svelte.js';
 	import QuickFormBuilder from '$lib/compileFormSchema/QuickFormBuilder.svelte';
-	import { TextValidation } from '$lib/components/Text/Text.validation.js';
-	import { NumberState } from '$lib/components/Numbers/NumberState.svelte.js';
-	import { NumberValidation } from '$lib/components/Numbers/Number.validation.js';
-	import { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
-	import { BooleanValidation } from '$lib/components/Boolean/Boolean.validation.js';
-	import { ChoicesState } from '$lib/components/Choices/ChoicesState.svelte.js';
-	import { SelectState } from '$lib/components/Select/SelectState.svelte.js';
+	import { QVText } from '$lib/components/Validation/ValidationObj.js';
 
-	class nameInput extends TextState {
-		override validation() {
-			return new TextValidation(this.text).minLength(3).maxLength(10);
-		}
-	}
+	// class nameInput extends TextState {
+	// 	override validation() {
+	// 		return new TextValidation(this.text).minLength(3).maxLength(10);
+	// 	}
+	// }
+	//
+	// class emailInput extends TextState {}
+	//
+	// class ageInput extends NumberState {
+	// 	override validation() {
+	// 		return new NumberValidation(this.number).min(18).max(100);
+	// 	}
+	// }
+	//
+	// class saveButton extends BooleanState {
+	// 	override validation() {
+	// 		return new BooleanValidation(this.boolean).mustBeTrue();
+	// 	}
+	// }
+	//
+	// class genderInput extends ChoicesState {}
+	//
+	// class countryInput extends SelectState {}
+	//
+	// const entries: [string, TextState | NumberState | BooleanState | ChoicesState | SelectState][] = [
+	// 	['name', new nameInput({
+	// 		label: "Enter your name",
+	// 		helper: 'Enter your first name then last name',
+	// 		placeholder: 'John wick',
+	// 	})],
+	// 	['email', new emailInput({
+	// 		label: "Enter your email",
+	// 		helper: 'Enter your email address. It must be valid',
+	// 		placeholder: 'sample@gmail.com',
+	// 	})],
+	// 	['age', new ageInput({
+	// 		label: "Enter your mobile number",
+	// 		helper: 'Mobile number must begin with 0, not country code',
+	// 		placeholder: '0773451221',
+	// 	})],
+	// 	['save', new saveButton({
+	// 		label: "Save your data",
+	// 		helper: 'When you check this box, you agree to our terms and conditions',
+	// 	})],
+	// 	['gender', new genderInput({
+	// 		label: "Select your gender",
+	// 		multiple: false,
+	// 		choices: [
+	// 			{
+	// 				title: "Male",
+	// 				helper: "Gender is male",
+	// 				key: "male",
+	// 				value: false
+	// 			},
+	// 			{
+	// 				title: "Female",
+	// 				helper: "Gender is female",
+	// 				key: "female",
+	// 				value: false
+	// 			}
+	// 		],
+	// 		defaultSelect: 'male'
+	// 	})],
+	// 	['country', new countryInput({
+	// 		label: 'Select Country',
+	// 		helper: 'Select your country',
+	// 		placeholder: 'Select Country',
+	// 		select: [
+	// 			{ label: 'USA', value: 'USA' },
+	// 			{ label: 'United Kingdom', value: 'UK' },
+	// 			{ label: 'Canada', value: 'CA' },
+	// 			{ label: 'Germany', value: 'DE' },
+	// 			{ label: 'France', value: 'FR' },
+	// 			{ label: 'Italy', value: 'IT' },
+	// 			{ label: 'Spain', value: 'ES' },
+	// 			{ label: 'Australia', value: 'AU' },
+	// 			{ label: 'Japan', value: 'JP' },
+	// 			{ label: 'China', value: 'CN' },
+	// 			{ label: 'India', value: 'IN' },
+	// 			{ label: 'Brazil', value: 'BR' }
+	// 		],
+	// 		multiple: true,
+	// 		defaultSelect: 'USA'
+	// 	})]
+	// ];
 
-	class emailInput extends TextState {}
-
-	class ageInput extends NumberState {
-		override validation() {
-			return new NumberValidation(this.number).min(18).max(100);
-		}
-	}
-
-	class saveButton extends BooleanState {
-		override validation() {
-			return new BooleanValidation(this.boolean).mustBeTrue();
-		}
-	}
-
-	class genderInput extends ChoicesState {}
-
-	class countryInput extends SelectState {}
-
-	const entries: [string, TextState | NumberState | BooleanState | ChoicesState | SelectState][] = [
-		['name', new nameInput({
-			label: "Enter your name",
-			helper: 'Enter your first name then last name',
-			placeholder: 'John wick',
-		})],
-		['email', new emailInput({
-			label: "Enter your email",
-			helper: 'Enter your email address. It must be valid',
-			placeholder: 'sample@gmail.com',
-		})],
-		['age', new ageInput({
-			label: "Enter your mobile number",
-			helper: 'Mobile number must begin with 0, not country code',
-			placeholder: '0773451221',
-		})],
-		['save', new saveButton({
-			label: "Save your data",
-			helper: 'When you check this box, you agree to our terms and conditions',
-		})],
-		['gender', new genderInput({
-			label: "Select your gender",
-			multiple: false,
-			choices: [
+	const quickForm: QuickFormInputs[] = [
+		{
+			name: 'firstName',
+			input: new TextState(
 				{
-					title: "Male",
-					helper: "Gender is male",
-					key: "male",
-					value: false
+					label: 'First Name',
+					placeholder: 'Wick',
+					helper: 'Enter your first name'
 				},
 				{
-					title: "Female",
-					helper: "Gender is female",
-					key: "female",
-					value: false
+					validation: QVText.minLength(4, "There must be at least 4 characters in your name").maxLength(30)
 				}
-			],
-			defaultSelect: 'male'
-		})],
-		['country', new countryInput({
-			label: 'Select Country',
-			helper: 'Select your country',
-			placeholder: 'Select Country',
-			select: [
-				{ label: 'USA', value: 'USA' },
-				{ label: 'United Kingdom', value: 'UK' },
-				{ label: 'Canada', value: 'CA' },
-				{ label: 'Germany', value: 'DE' },
-				{ label: 'France', value: 'FR' },
-				{ label: 'Italy', value: 'IT' },
-				{ label: 'Spain', value: 'ES' },
-				{ label: 'Australia', value: 'AU' },
-				{ label: 'Japan', value: 'JP' },
-				{ label: 'China', value: 'CN' },
-				{ label: 'India', value: 'IN' },
-				{ label: 'Brazil', value: 'BR' }
-			],
-			multiple: true,
-			defaultSelect: 'USA'
-		})]
+			)
+		},
+		{
+			name: 'secondName',
+			input: new TextState({
+				label: 'Second Name',
+				placeholder: 'John',
+				helper: 'Enter your second name'
+			})
+		}
 	];
-
-	const quickForm: QuickFormSchema = new Map(entries);
 
 </script>
 

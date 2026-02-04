@@ -3,21 +3,23 @@ import type { NumberState } from '$lib/components/Numbers/NumberState.svelte.js'
 import type { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
 import type { ChoicesState } from '$lib/components/Choices/ChoicesState.svelte.js';
 import type { SelectState } from '$lib/components/Select/SelectState.svelte.js';
+import type { TextValidationObj } from '$lib/components/Validation/ValidationObj.js';
 
 export type Choices = { key: string; value: boolean; title: string; helper?: string }[];
 
 export type Selects = { label: string; value: string }[];
-
-export type QuickFormSchema = Map<
-	string,
-	TextState | NumberState | BooleanState | ChoicesState | SelectState
->;
 
 export type QuickFormTextInput = {
 	label: string;
 	helper: string;
 	placeholder: string;
 };
+
+export type QuickFormTextInputActions = {
+	validation?: TextValidationObj;
+	preProcess?: () => string;
+	postProcess?: () => string;
+}
 
 export type QuickFormNumberInput = {
 	label: string;
@@ -44,4 +46,9 @@ export type QuickFormSelectInput = {
 	select: Selects,
 	multiple: boolean,
 	defaultSelect: string | null
+};
+
+export type QuickFormInputs = {
+	name: string,
+	input: TextState | NumberState | BooleanState | ChoicesState | SelectState
 };
