@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { QuickFormInputs } from '$lib/types/schema.js';
 	import QuickFormBuilder from '$lib/compileFormSchema/QuickFormBuilder.svelte';
-	import { QVBoolean, QVNumber, QVText } from '$lib/components/Validation/ValidationObj.js';
+	import { QVBoolean, QVChoice, QVNumber, QVSelect, QVText } from '$lib/components/Validation/ValidationObj.js';
 	import { TextState } from '$lib/components/Text/TextState.svelte.js';
 	import { NumberState } from '$lib/components/Numbers/NumberState.svelte.js';
 	import { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
@@ -76,6 +76,9 @@
 						}
 					],
 					multiple: false
+				},
+				{
+					validation: QVChoice.isAtLeastOneChecked('You must choose a gender')
 				}
 			)
 		},
@@ -106,6 +109,9 @@
 					],
 					multiple: true,
 					defaultSelect: null
+				},
+				{
+					validation: QVSelect.isAtLeastOneSelected('You must select at least one program').maxSelected(2, 'You can select a maximum of 2 programs')
 				}
 			)
 		}

@@ -127,6 +127,12 @@ export class ChoiceValidationObj {
 		return newObj;
 	}
 
+	isAtLeastOneChecked(err: string = 'At least one option must be checked') {
+		const newObj = this.clone();
+		newObj.checks.push({checker: (val) => val.some(item => item.value), err});
+		return newObj;
+	}
+
 	isOk(valueOfValidation: Choices) {
 		this.checks.forEach(check => {
 			if (!check.checker(valueOfValidation)) throw new Error(check.err);
@@ -144,8 +150,19 @@ export class SelectValidationObj {
 		return newObj;
 	}
 
+	isAtLeastOneSelected(err: string = 'At least one option must be selected') {
+		const newObj = this.clone()
+		newObj.checks.push({checker: (val) => val.length > 0, err});
+		return newObj;
+	}
+
+	maxSelected(num: number, err: string = 'Maximum number of selected options is ' + num) {
+		const newObj = this.clone();
+		newObj.checks.push({checker: (val) => val.length <= num, err});
+		return newObj;
+	}
+
 	isOk(valueOfValidation: Selects) {
-		console.log(valueOfValidation);
 		this.checks.forEach(check => {
 			if (!check.checker(valueOfValidation)) throw new Error(check.err);
 		})

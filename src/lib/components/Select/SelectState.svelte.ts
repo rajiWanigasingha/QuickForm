@@ -3,6 +3,7 @@ import type { QuickFormSelectInput, QuickFormSelectInputActions, Selects } from 
 
 export class SelectState extends QuickForms {
 	protected select: Selects = [];
+	protected selectOptions: Selects = [];
 	multiple: boolean = false;
 	defaultSelect: string | null = null;
 	errors: string = $state('');
@@ -14,23 +15,17 @@ export class SelectState extends QuickForms {
 		this.defaultSelect = init.defaultSelect;
 	}
 
-	setSelect(value: string) {
-		const foundIndex = this.select.findIndex((item) => item.value === value);
+	setSelect(value: Selects) {
 
-		if (foundIndex !== -1) {
-			this.errors = "Can't find selected option. Something went wrong.";
-			return;
-		}
-
-		this.select[foundIndex] = { ...this.select[foundIndex], value };
+		this.selectOptions = value;
 
 		if (this.process?.preProcess !== undefined) {
-			this.select = this.process.preProcess()
+			this.selectOptions = this.process.preProcess()
 		}
 
 		if (this.process?.validation !== undefined) {
 			try {
-				this.process.validation.isOk(this.select);
+				this.process.validation.isOk(this.selectOptions);
 			} catch (e: unknown) {
 				this.errors = e instanceof Error ? e.message : 'Unknown error.';
 				return;
@@ -40,11 +35,15 @@ export class SelectState extends QuickForms {
 		this.errors = '';
 
 		if (this.process?.postProcess !== undefined) {
-			this.select = this.process.postProcess();
+			this.selectOptions = this.process.postProcess();
 		}
 	}
 
 	getSelect() {
 		return this.select;
+	}
+
+	getSelectOptions() {
+		return this.selectOptions;
 	}
 }

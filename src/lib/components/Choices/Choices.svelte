@@ -34,6 +34,14 @@
 			});
 		}
 	}
+
+	$effect(() => {
+		if (inputValues) {
+			inputValues.forEach(choice => {
+				choices.setChoices(choice.key ,choice.value)
+			})
+		}
+	})
 </script>
 
 <div class="flex flex-col p-3 gap-2">

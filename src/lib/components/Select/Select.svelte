@@ -26,11 +26,15 @@
 			inputSelect = [option];
 			openSelectDialog = false;
 		}
+
+		select.setSelect(inputSelect)
 	}
 
 	function removeOption(option: { label: string, value: string }) {
 		inputSelect = inputSelect.filter((item) => item.value !== option.value);
 		searchQuery = searchQuery.map(item => item.value.value === option.value ? { ...item, selected: false } : item);
+
+		select.setSelect(inputSelect)
 	}
 
 	function search(query: string) {
@@ -84,9 +88,13 @@
 
 {#if openSelectDialog}
 	<div
-		onclick={() => openSelectDialog = false}
+		onclick={() => {
+			search('')
+			openSelectDialog = false
+		}}
 		onkeydown={(e) => {
 			if (e.key === 'Escape') {
+				search('')
 				openSelectDialog = false
 			}
 		}}
@@ -95,7 +103,7 @@
 		aria-label="Close dialog overlay"
 		class="fixed top-0 left-0 z-10 w-screen h-screen backdrop-blur-xs backdrop-brightness-100"></div>
 	<dialog open={true}
-					class="w-100 h-120 bg-gray-50 border border-gray-300 rounded-2xl fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
+					class="w-100 max-h-120 bg-gray-50 border border-gray-300 rounded-2xl fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
 	>
 		<div class="relative w-full mb-4">
 			<svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"

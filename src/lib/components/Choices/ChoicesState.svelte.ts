@@ -17,8 +17,7 @@ export class ChoicesState extends QuickForms {
 	setChoices(key: string, value: boolean) {
 		const foundIndex = this.choices.findIndex((item) => item.key === key);
 
-		if (foundIndex !== -1) {
-			this.errors = "Can't find selected option. Something went wrong.";
+		if (foundIndex === -1) {
 			return;
 		}
 
