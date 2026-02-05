@@ -1,5 +1,5 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
-import type { Choices, QuickFormChoiceInput } from '$lib/types/schema.js';
+import type { Choices, QuickFormChoiceInput, QuickFormChoiceInputActions } from '$lib/types/schema.js';
 
 export class ChoicesState extends QuickForms {
 	protected choices: Choices = [];
@@ -7,21 +7,11 @@ export class ChoicesState extends QuickForms {
 	defaultSelect: string | null = null;
 	errors: string = $state('');
 
-	constructor(init: QuickFormChoiceInput) {
+	constructor(init: QuickFormChoiceInput, private process: QuickFormChoiceInputActions | null = null) {
 		super(init.label, '', '');
 		this.choices = init.choices;
 		this.multiple = init.multiple;
 		this.defaultSelect = init.defaultSelect;
-	}
-
-	validation() {}
-
-	preProcess() {
-		return this.choices;
-	}
-
-	postProcess() {
-		return this.choices;
 	}
 
 	setChoices(key: string, value: boolean) {
@@ -34,18 +24,24 @@ export class ChoicesState extends QuickForms {
 
 		this.choices[foundIndex] = { ...this.choices[foundIndex] ,key, value };
 
-		this.choices = this.preProcess();
+		if (this.process?.preProcess !== undefined) {
+			this.choices = this.process.preProcess()
+		}
 
-		try {
-			this.validation();
-		} catch (e: unknown) {
-			this.errors = e instanceof Error ? e.message : 'Unknown error.';
-			return;
+		if (this.process?.validation !== undefined) {
+			try {
+				this.process.validation.isOk(this.choices);
+			} catch (e: unknown) {
+				this.errors = e instanceof Error ? e.message : 'Unknown error.';
+				return;
+			}
 		}
 
 		this.errors = '';
 
-		this.choices = this.postProcess();
+		if (this.process?.postProcess !== undefined) {
+			this.choices = this.process.postProcess();
+		}
 	}
 
 	getChoices() {

@@ -1,3 +1,5 @@
+import type { Choices } from '$lib/types/schema.js';
+
 export class TextValidationObj {
 
 	private checks: {checker: (val: string) => boolean, err: string}[] = [];
@@ -115,6 +117,24 @@ export class BooleanValidationObj {
 	}
 }
 
+export class ChoiceValidationObj {
+
+	private checks: {checker: (val: Choices) => boolean, err: string}[] = [];
+
+	private clone() {
+		const newObj = new ChoiceValidationObj();
+		newObj.checks = [...this.checks];
+		return newObj;
+	}
+
+	isOk(valueOfValidation: Choices) {
+		this.checks.forEach(check => {
+			if (!check.checker(valueOfValidation)) throw new Error(check.err);
+		})
+	}
+}
+
 export const QVText = new TextValidationObj();
 export const QVNumber = new NumberValidationObj();
 export const QVBoolean = new BooleanValidationObj();
+export const QVChoice = new ChoiceValidationObj();

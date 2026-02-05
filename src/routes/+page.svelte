@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { QuickFormInputs } from '$lib/types/schema.js';
 	import QuickFormBuilder from '$lib/compileFormSchema/QuickFormBuilder.svelte';
-	import { QVBoolean, QVNumber, QVText } from '$lib/components/Validation/ValidationObj.js';
+	import { QVBoolean, QVChoice, QVNumber, QVText } from '$lib/components/Validation/ValidationObj.js';
 	import { TextState } from '$lib/components/Text/TextState.svelte.js';
 	import { NumberState } from '$lib/components/Numbers/NumberState.svelte.js';
 	import { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
+	import { ChoicesState } from '$lib/components/Choices/ChoicesState.svelte.js';
 
 	// class nameInput extends TextState {
 	// 	override validation() {
@@ -136,6 +137,30 @@
 				},
 				{
 					validation: QVBoolean.mustBeTrue('You must agree to our terms and conditions')
+				}
+			)
+		},
+		{
+			name: 'gender',
+			input: new ChoicesState(
+				{
+					label: 'Choose your gender',
+					defaultSelect: 'male',
+					choices: [
+						{
+							title: 'Male',
+							helper: 'Gender is male',
+							key: 'male',
+							value: false
+						},
+						{
+							title: 'Female',
+							helper: 'Gender is female',
+							key: 'female',
+							value: false
+						}
+					],
+					multiple: false
 				}
 			)
 		}
