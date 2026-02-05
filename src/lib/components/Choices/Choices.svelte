@@ -60,6 +60,6 @@
 	</div>
 
 	{#if choices.errors !== ""}
-		<label for="" class="text-xs text-red-600">{choices.errors}</label>
+		<label for="error" class="text-xs text-red-600">{choices.errors}</label>
 	{/if}
 </div>

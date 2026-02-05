@@ -53,7 +53,7 @@
 	{#each inputSelect as option (option)}
 		<input type="text" name="{name}" hidden value="{option}">
 	{/each}
-	<button class="flex items-center justify-between w-full border p-2 rounded-md cursor-pointer bg-black/10"
+	<button class="flex items-center justify-between w-full border p-2 rounded-md cursor-pointer bg-black/10 border-black/20"
 					onclick={() => openSelectDialog = !openSelectDialog}>
 		{#if inputSelect.length > 0}
 			<div class="flex flex-wrap gap-2">
@@ -80,9 +80,9 @@
 	</button>
 
 	{#if select.errors === ""}
-		<label for="" class="text-xs">{select.getHelper()}</label>
+		<label for="helper" class="text-xs">{select.getHelper()}</label>
 	{:else}
-		<label for="" class="text-xs text-red-600">{select.errors}</label>
+		<label for="error" class="text-xs text-red-600">{select.errors}</label>
 	{/if}
 </div>
 

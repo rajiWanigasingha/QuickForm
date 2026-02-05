@@ -12,6 +12,8 @@ export class BooleanState extends QuickForms {
 	setBoolean(bool: boolean) {
 		this.boolean = bool;
 
+		console.log(this.boolean);
+
 		if (this.process?.preProcess !== undefined) {
 			this.boolean = this.process.preProcess();
 		}

@@ -13,11 +13,11 @@
 		bind:value={inputValue}
 		placeholder={textState.getPlaceholder()}
 		onfocusout={() => textState.setText(inputValue)}
-		class="border rounded-md bg-black/10 placeholder:text-black/70 text-sm"
+		class="border border-black/20 rounded-md bg-black/10 placeholder:text-black/70 text-sm"
 	>
 	{#if textState.errors === ""}
-		<label for="" class="text-xs font-base">{textState.getHelper()}</label>
+		<label for="helper" class="text-xs font-base">{textState.getHelper()}</label>
 	{:else}
-		<label for="" class="text-xs font-base text-red-600">{textState.errors}</label>
+		<label for="error" class="text-xs font-base text-red-600">{textState.errors}</label>
 	{/if}
 </div>

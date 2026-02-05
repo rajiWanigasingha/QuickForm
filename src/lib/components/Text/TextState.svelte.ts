@@ -2,7 +2,7 @@ import { QuickForms } from '$lib/components/FormStateInterface.js';
 import type { QuickFormTextInput, QuickFormTextInputActions } from '$lib/types/schema.js';
 
 export class TextState extends QuickForms {
-	protected text: string = "";
+	protected text: string | null = null;
 	errors: string = $state("");
 
 	constructor(init: QuickFormTextInput ,private process: QuickFormTextInputActions | null = null) {

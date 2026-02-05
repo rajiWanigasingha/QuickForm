@@ -3,7 +3,7 @@ import type { QuickFormNumberInput, QuickFormNumberInputActions } from '$lib/typ
 
 export class NumberState extends QuickForms {
 	errors: string = $state('');
-	protected number: string = '';
+	protected number: string | null = null;
 
 	constructor(init: QuickFormNumberInput ,private process: QuickFormNumberInputActions | null = null) {
 		super(init.label, init.helper, init.placeholder);

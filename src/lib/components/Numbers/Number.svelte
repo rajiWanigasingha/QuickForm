@@ -24,11 +24,11 @@
 		oninput={(e) => {rejectCharacter(e.currentTarget.value)}}
 		onfocusout={() => numberState.setNumber(inputValue)}
 		placeholder={numberState.getPlaceholder()}
-		class="border rounded-md bg-black/10 placeholder:text-black/70 text-sm"
+		class="border rounded-md border-black/20 bg-black/10 placeholder:text-black/70 text-sm"
 	>
 	{#if numberState.errors === ""}
-		<label for="" class="text-xs font-base">{numberState.getHelper()}</label>
+		<label for="helper" class="text-xs font-base">{numberState.getHelper()}</label>
 	{:else}
-		<label for="" class="text-xs font-base text-red-600">{numberState.errors}</label>
+		<label for="error" class="text-xs font-base text-red-600">{numberState.errors}</label>
 	{/if}
 </div>

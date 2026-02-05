@@ -9,17 +9,19 @@
 	<div class="flex flex-row justify-between items-center">
 		<div class="flex flex-col gap-1">
 			<label for="{booleanState.getLabel()}" class="text-sm font-medium">{booleanState.getLabel()}</label>
-			<label for="" class="text-xs">{booleanState.getHelper()}</label>
+			<label for="helper" class="text-xs">{booleanState.getHelper()}</label>
 		</div>
 		<div>
 			<label class="switch">
-				<input type="checkbox" name="{name}" bind:checked={inputValue} onfocusout={() => booleanState.setBoolean(inputValue)}>
+				<input type="checkbox" class="w-full h-full" name="{name}" bind:checked={inputValue} oninput={(e) => {
+					booleanState.setBoolean(e.currentTarget.checked)
+				}}>
 				<span class="slider round"></span>
 			</label>
 		</div>
 	</div>
 	{#if booleanState.errors !== ""}
-		<label for="" class="text-xs text-red-600">{booleanState.errors}</label>
+		<label for="error" class="text-xs text-red-600">{booleanState.errors}</label>
 	{/if}
 </div>
 
