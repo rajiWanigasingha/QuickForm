@@ -1,5 +1,5 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
-import type { QuickFormSelectInput, Selects } from '$lib/types/schema.js';
+import type { QuickFormSelectInput, QuickFormSelectInputActions, Selects } from '$lib/types/schema.js';
 
 export class SelectState extends QuickForms {
 	protected select: Selects = [];
@@ -7,21 +7,11 @@ export class SelectState extends QuickForms {
 	defaultSelect: string | null = null;
 	errors: string = $state('');
 
-	constructor(init: QuickFormSelectInput) {
+	constructor(init: QuickFormSelectInput ,private process: QuickFormSelectInputActions | null = null) {
 		super(init.label, init.helper, init.placeholder);
 		this.select = init.select;
 		this.multiple = init.multiple;
 		this.defaultSelect = init.defaultSelect;
-	}
-
-	validation() {}
-
-	preProcess() {
-		return this.select;
-	}
-
-	postProcess() {
-		return this.select;
 	}
 
 	setSelect(value: string) {
@@ -34,18 +24,24 @@ export class SelectState extends QuickForms {
 
 		this.select[foundIndex] = { ...this.select[foundIndex], value };
 
-		this.select = this.preProcess();
+		if (this.process?.preProcess !== undefined) {
+			this.select = this.process.preProcess()
+		}
 
-		try {
-			this.validation();
-		} catch (e: unknown) {
-			this.errors = e instanceof Error ? e.message : 'Unknown error.';
-			return;
+		if (this.process?.validation !== undefined) {
+			try {
+				this.process.validation.isOk(this.select);
+			} catch (e: unknown) {
+				this.errors = e instanceof Error ? e.message : 'Unknown error.';
+				return;
+			}
 		}
 
 		this.errors = '';
 
-		this.select = this.postProcess();
+		if (this.process?.postProcess !== undefined) {
+			this.select = this.process.postProcess();
+		}
 	}
 
 	getSelect() {

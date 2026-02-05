@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { QuickFormInputs } from '$lib/types/schema.js';
 	import QuickFormBuilder from '$lib/compileFormSchema/QuickFormBuilder.svelte';
-	import { QVBoolean, QVChoice, QVNumber, QVText } from '$lib/components/Validation/ValidationObj.js';
+	import { QVBoolean, QVNumber, QVText } from '$lib/components/Validation/ValidationObj.js';
 	import { TextState } from '$lib/components/Text/TextState.svelte.js';
 	import { NumberState } from '$lib/components/Numbers/NumberState.svelte.js';
 	import { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
 	import { ChoicesState } from '$lib/components/Choices/ChoicesState.svelte.js';
+	import { SelectState } from '$lib/components/Select/SelectState.svelte.js';
 
 	// class nameInput extends TextState {
 	// 	override validation() {
@@ -161,6 +162,36 @@
 						}
 					],
 					multiple: false
+				}
+			)
+		},
+		{
+			name: "program",
+			input: new SelectState(
+				{
+					label: "Select programs",
+					placeholder: "Select One or More",
+					helper: "Select one or multiple program languages",
+					select: [
+						{
+							label: "Java",
+							value: "java"
+						},
+						{
+							label: "Python",
+							value: "python"
+						},
+						{
+							label: "C++",
+							value: "cpp"
+						},
+						{
+							label: "C",
+							value: "c"
+						}
+					],
+					multiple: true,
+					defaultSelect: null
 				}
 			)
 		}
