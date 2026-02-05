@@ -1,6 +1,6 @@
 {
 	"name": "@rajinda_wanigasingha/quickform",
-	"version": "0.0.5-dev",
+	"version": "0.0.5-dev.1",
 	"description": "Way to build complex dynamic forms declaratively. Giving real time validation, pre-processing and post-processing.",
 	"homepage": "https://github.com/rajiWanigasingha/QuickForm.git",
 	"email": "rajindawanigasingha@gmail.com",

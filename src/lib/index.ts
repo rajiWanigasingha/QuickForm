@@ -8,8 +8,7 @@ export { ChoicesState } from './components/Choices/ChoicesState.svelte.js';
 export { SelectState } from './components/Select/SelectState.svelte.js';
 
 // Export validations
-export { NumberValidation } from './components/Numbers/Number.validation.js';
-export { BooleanValidation } from './components/Boolean/Boolean.validation.js';
+export * from "./components/Validation/ValidationObj.js"
 
 // Export component
 export { default as QuickFormBuilder } from './compileFormSchema/QuickFormBuilder.svelte';
