@@ -119,7 +119,26 @@
 
 </script>
 
-<div class="mx-64 my-16 p-4 bg-gray-100 rounded-lg">
+<div class="relative mx-64 my-16 p-4 bg-gray-100 rounded-lg">
 	<p class="text-lg font-semibold">File the form</p>
-	<QuickFormBuilder schema={quickForm} />
+	<QuickFormBuilder schema={quickForm} actionURL="" />
+
+	<div class="absolute inset-0 bg-black/40 rounded-lg flex flex-col p-4 gap-4 justify-center items-center overflow-hidden">
+		<img src="/upload.png" alt="upload" class="w-40 h-40 relative z-10 object-contain animate-glow-pulse">
+	</div>
 </div>
+
+<style>
+    @keyframes glow-pulse {
+        0%, 100% {
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+        }
+        50% {
+            filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));
+        }
+    }
+
+    .animate-glow-pulse {
+        animation: glow-pulse 2s infinite ease-in-out;
+    }
+</style>

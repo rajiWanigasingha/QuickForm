@@ -1,9 +1,21 @@
 <script lang="ts">
 	import type { ChoicesState } from '$lib/components/Choices/ChoicesState.svelte.js';
+	import { resetForm } from '$lib/components/resetComponent.svelte.js';
 
 	let { name, choices }: { name: string, choices: ChoicesState } = $props();
 	let inputValues = $state([] as { key: string, value: boolean }[]);
 	let values = $derived(choices.getChoices())
+
+	function reset() {
+		inputValues = []
+		choices.resetChoices()
+	}
+
+	$effect(() => {
+		if (resetForm.reset > 0) {
+			reset()
+		}
+	})
 
 	$effect(() => {
 		if (inputValues.length === 0) {

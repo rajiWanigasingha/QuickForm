@@ -1,8 +1,22 @@
 <script lang="ts">
 	import type { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
+	import { resetForm } from '$lib/components/resetComponent.svelte.js';
 
 	let { name, booleanState }: { name: string, booleanState: BooleanState } = $props();
 	let inputValue = $state(false);
+
+	function reset() {
+		inputValue = false;
+		booleanState.resetBoolean();
+	}
+
+	$effect(() => {
+		if (resetForm) {
+			reset();
+			booleanState.resetBoolean();
+		}
+	});
+
 </script>
 
 <div class="flex flex-col p-3 gap-2">

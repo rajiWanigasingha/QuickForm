@@ -9,6 +9,11 @@ export class TextState extends QuickForms {
 		super(init.label, init.helper, init.placeholder);
 	}
 
+	resetText() {
+		this.text = null;
+		this.errors = ""
+	}
+
 	setText(text: string) {
 		this.text = text;
 

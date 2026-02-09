@@ -9,6 +9,11 @@ export class BooleanState extends QuickForms {
 		super(init.label, init.helper ,'');
 	}
 
+	resetBoolean() {
+		this.boolean = false
+		this.errors = ''
+	}
+
 	setBoolean(bool: boolean) {
 		this.boolean = bool;
 

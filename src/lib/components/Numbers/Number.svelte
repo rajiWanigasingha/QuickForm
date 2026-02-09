@@ -1,6 +1,7 @@
 <script lang="ts">
 
 	import type { NumberState } from '$lib/components/Numbers/NumberState.svelte.js';
+	import { resetForm } from '$lib/components/resetComponent.svelte.js';
 
 	let { name, numberState }: { name: string, numberState: NumberState } = $props();
 	let inputValue = $state('');
@@ -12,6 +13,17 @@
 			inputValue = inputValue.slice(0, -1);
 		}
 	}
+
+	function reset() {
+		inputValue = '';
+		numberState.resetNumber()
+	}
+
+	$effect(() => {
+		if (resetForm.reset) {
+			reset();
+		}
+	})
 
 </script>
 

@@ -9,6 +9,11 @@ export class NumberState extends QuickForms {
 		super(init.label, init.helper, init.placeholder);
 	}
 
+	resetNumber() {
+		this.errors = ''
+		this.number = null
+	}
+
 	setNumber(number: string) {
 		this.number = number;
 

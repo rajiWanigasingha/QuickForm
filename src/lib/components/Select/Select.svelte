@@ -1,11 +1,25 @@
 <script lang="ts">
 	import type { SelectState } from '$lib/components/Select/SelectState.svelte.js';
 	import { onMount } from 'svelte';
+	import { resetForm } from '$lib/components/resetComponent.svelte.js';
 
 	let { name, select }: { name: string, select: SelectState } = $props();
 	let inputSelect = $state([] as { label: string, value: string }[]);
 	let openSelectDialog = $state(false);
 	let searchQuery = $state([] as { selected: boolean, searchRank: boolean, value: { label: string, value: string } }[]);
+
+	function reset() {
+		inputSelect = []
+		openSelectDialog = false
+		searchQuery = []
+		select.resetSelect()
+	}
+
+	$effect(() => {
+		if (resetForm.reset > 0) {
+			reset()
+		}
+	})
 
 	onMount(() => {
 		window.addEventListener('keydown', (e) => {
@@ -54,7 +68,10 @@
 		<input type="text" name="{name}" hidden value="{option}">
 	{/each}
 	<button class="flex items-center justify-between w-full border p-2 rounded-md cursor-pointer bg-black/10 border-black/20"
-					onclick={() => openSelectDialog = !openSelectDialog}>
+					onclick={(e) => {
+						e.preventDefault();
+						openSelectDialog = !openSelectDialog
+					}}>
 		{#if inputSelect.length > 0}
 			<div class="flex flex-wrap gap-2">
 				{#each inputSelect as optionVal (optionVal)}

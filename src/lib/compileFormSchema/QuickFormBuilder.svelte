@@ -10,23 +10,78 @@
 	import { SelectState } from '$lib/components/Select/SelectState.svelte.js';
 	import Select from '$lib/components/Select/Select.svelte';
 	import type { QuickFormInputs } from '$lib/types/schema.js';
+	import { enhance } from '$app/forms';
+	import type { SubmitFunction } from '@sveltejs/kit';
+	import { resetForm } from '$lib/components/resetComponent.svelte.js';
 
-	let { schema }: { schema: QuickFormInputs[] } = $props();
+	let {
+		schema,
+		actionURL,
+		onSuccess = () => {
+		},
+		onError = () => {
+		},
+		onFailure = () => {
+		},
+		onRedirect = () => {
+		}
+	}: {
+		schema: QuickFormInputs[],
+		actionURL: string,
+		onSuccess?: () => void,
+		onError?: () => void,
+		onFailure?: () => void,
+		onRedirect?: () => void
+	} = $props();
+
+	const handeSubmit: SubmitFunction = ({ formData }) => {
+
+		console.log(formData);
+
+		return async ({ result, update }) => {
+			if (result.type === 'success') {
+				onSuccess();
+				await update();
+				resetForm.resetState();
+			}
+
+			if (result.type === 'error') {
+				onError();
+			}
+
+			if (result.type === 'failure') {
+				onFailure();
+			}
+
+			if (result.type === 'redirect') {
+				onRedirect();
+			}
+		};
+	};
 </script>
-
-<div class="flex flex-col gap-1">
-	{#each schema as field ,index (index)}
-		{@const schemaField = field.input}
-		{#if schemaField instanceof TextState && schemaField !== undefined}
-			<Text textState={schemaField} name={field.name}/>
-		{:else if schemaField instanceof NumberState && schemaField !== undefined}
-			<Number numberState={schemaField} name={field.name}/>
-		{:else if schemaField instanceof BooleanState && schemaField !== undefined}
-			<Boolean booleanState={schemaField} name={field.name}/>
-		{:else if schemaField instanceof ChoicesState && schemaField !== undefined}
-			<Choices choices={schemaField} name={field.name}/>
-		{:else if schemaField instanceof SelectState && schemaField !== undefined}
-			<Select select={schemaField} name={field.name}/>
-		{/if}
-	{/each}
+<div>
+	<form action="{actionURL}" method="post" use:enhance={handeSubmit}>
+		<div class="flex flex-col gap-1">
+			{#each schema as field ,index (index)}
+				{@const schemaField = field.input}
+				{#if schemaField instanceof TextState && schemaField !== undefined}
+					<Text textState={schemaField} name={field.name} />
+				{:else if schemaField instanceof NumberState && schemaField !== undefined}
+					<Number numberState={schemaField} name={field.name} />
+				{:else if schemaField instanceof BooleanState && schemaField !== undefined}
+					<Boolean booleanState={schemaField} name={field.name} />
+				{:else if schemaField instanceof ChoicesState && schemaField !== undefined}
+					<Choices choices={schemaField} name={field.name} />
+				{:else if schemaField instanceof SelectState && schemaField !== undefined}
+					<Select select={schemaField} name={field.name} />
+				{/if}
+			{/each}
+			<div class="px-3 flex justify-end">
+				<button type="submit"
+								class="bg-green-500 w-75 text-white font-bold rounded-xl p-2 text-sm cursor-pointer hover:bg-green-600">
+					Submit
+				</button>
+			</div>
+		</div>
+	</form>
 </div>

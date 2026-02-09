@@ -1,8 +1,21 @@
 <script lang="ts">
 	import type { TextState } from '$lib/components/Text/TextState.svelte.js';
+	import { resetForm } from '$lib/components/resetComponent.svelte.js';
 
 	let { name, textState }: { name: string, textState: TextState } = $props();
 	let inputValue = $state('');
+
+	function resetInput() {
+		inputValue = ''
+		textState.resetText()
+	}
+
+	$effect(() => {
+		if (resetForm.reset > 0) {
+			resetInput()
+		}
+	})
+
 </script>
 
 <div class="flex flex-col p-3 gap-1">
