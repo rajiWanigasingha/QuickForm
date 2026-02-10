@@ -21,7 +21,9 @@ export class TextState extends QuickForms {
 				this.process.validation.isOk(this.text ?? "")
 			} catch (e : unknown) {
 				this.errors = e instanceof Error ? e.message : "Unknown error."
-				stopSubmit.panic()
+				if (!stopSubmit.stop) {
+					stopSubmit.panic()
+				}
 			}
 		}
 	}

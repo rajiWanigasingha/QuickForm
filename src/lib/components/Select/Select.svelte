@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { SelectState } from '$lib/components/Select/SelectState.svelte.js';
-	import { onMount } from 'svelte';
-	import { loadingForm, resetForm } from '$lib/components/formStatus.svelte.js';
+	import { onMount, untrack } from 'svelte';
+	import { loadingForm, resetForm, submitState } from '$lib/components/formStatus.svelte.js';
 
 	let { name, select }: { name: string, select: SelectState } = $props();
 	let inputSelect = $state([] as { label: string, value: string }[]);
@@ -14,6 +14,14 @@
 		searchQuery = []
 		select.resetSelect()
 	}
+
+	$effect(() => {
+		if (submitState.submit > 0) {
+			untrack(() => {
+				select.submitValidate();
+			});
+		}
+	})
 
 	$effect(() => {
 		if (resetForm.reset > 0) {

@@ -1,5 +1,6 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
 import type { QuickFormNumberInput, QuickFormNumberInputActions } from '$lib/types/schema.js';
+import { stopSubmit } from '$lib/components/formStatus.svelte.js';
 
 export class NumberState extends QuickForms {
 	errors: string = $state('');
@@ -12,6 +13,19 @@ export class NumberState extends QuickForms {
 	resetNumber() {
 		this.errors = ''
 		this.number = null
+	}
+
+	submitValidate() {
+		if (this.process?.validation !== undefined) {
+			try {
+				this.process.validation.isOk(Number(this.number ?? 0))
+			} catch (e : unknown) {
+				this.errors = e instanceof Error ? e.message : "Unknown error."
+				if (!stopSubmit.stop) {
+					stopSubmit.panic()
+				}
+			}
+		}
 	}
 
 	setNumber(number: string) {

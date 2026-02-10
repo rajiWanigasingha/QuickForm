@@ -1,7 +1,8 @@
 <script lang="ts">
 
 	import type { NumberState } from '$lib/components/Numbers/NumberState.svelte.js';
-	import { loadingForm, resetForm } from '$lib/components/formStatus.svelte.js';
+	import { loadingForm, resetForm, submitState } from '$lib/components/formStatus.svelte.js';
+	import { untrack } from 'svelte';
 
 	let { name, numberState }: { name: string, numberState: NumberState } = $props();
 	let inputValue = $state('');
@@ -22,6 +23,15 @@
 	$effect(() => {
 		if (resetForm.reset) {
 			reset();
+		}
+	})
+
+
+	$effect(() => {
+		if (submitState.submit > 0) {
+			untrack(() => {
+				numberState.submitValidate();
+			});
 		}
 	})
 

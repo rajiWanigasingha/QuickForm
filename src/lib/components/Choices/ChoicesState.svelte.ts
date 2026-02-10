@@ -1,5 +1,6 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
 import type { Choices, QuickFormChoiceInput, QuickFormChoiceInputActions } from '$lib/types/schema.js';
+import { stopSubmit } from '$lib/components/formStatus.svelte.js';
 
 export class ChoicesState extends QuickForms {
 	private readonly choicesConst : Choices = [];
@@ -14,6 +15,19 @@ export class ChoicesState extends QuickForms {
 		this.choices = init.choices;
 		this.multiple = init.multiple;
 		this.defaultSelect = init.defaultSelect;
+	}
+
+	submitValidate() {
+		if (this.process?.validation !== undefined) {
+			try {
+				this.process.validation.isOk(this.choices)
+			} catch (e : unknown) {
+				this.errors = e instanceof Error ? e.message : "Unknown error."
+				if (!stopSubmit.stop) {
+					stopSubmit.panic()
+				}
+			}
+		}
 	}
 
 	resetChoices() {

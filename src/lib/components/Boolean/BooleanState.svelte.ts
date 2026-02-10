@@ -1,5 +1,6 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
 import type { QuickFormBooleanInput, QuickFormBooleanInputActions } from '$lib/types/schema.js';
+import { stopSubmit } from '$lib/components/formStatus.svelte.js';
 
 export class BooleanState extends QuickForms {
 	protected boolean: boolean = false;
@@ -7,6 +8,19 @@ export class BooleanState extends QuickForms {
 
 	constructor(init: QuickFormBooleanInput ,private process: QuickFormBooleanInputActions | null = null) {
 		super(init.label, init.helper ,'');
+	}
+
+	submitValidate() {
+		if (this.process?.validation !== undefined) {
+			try {
+				this.process.validation.isOk(this.boolean)
+			} catch (e : unknown) {
+				this.errors = e instanceof Error ? e.message : "Unknown error."
+				if (!stopSubmit.stop) {
+					stopSubmit.panic()
+				}
+			}
+		}
 	}
 
 	resetBoolean() {

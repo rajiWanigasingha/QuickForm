@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ChoicesState } from '$lib/components/Choices/ChoicesState.svelte.js';
-	import { loadingForm, resetForm } from '$lib/components/formStatus.svelte.js';
+	import { loadingForm, resetForm, submitState } from '$lib/components/formStatus.svelte.js';
+	import { untrack } from 'svelte';
 
 	let { name, choices }: { name: string, choices: ChoicesState } = $props();
 	let inputValues = $state([] as { key: string, value: boolean }[]);
@@ -10,6 +11,14 @@
 		inputValues = []
 		choices.resetChoices()
 	}
+
+	$effect(() => {
+		if (submitState.submit > 0) {
+			untrack(() => {
+				choices.submitValidate();
+			});
+		}
+	})
 
 	$effect(() => {
 		if (resetForm.reset > 0) {

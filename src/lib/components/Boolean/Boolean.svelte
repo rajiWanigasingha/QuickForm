@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
-	import { loadingForm, resetForm } from '$lib/components/formStatus.svelte.js';
+	import { loadingForm, resetForm, submitState } from '$lib/components/formStatus.svelte.js';
+	import { untrack } from 'svelte';
 
 	let { name, booleanState }: { name: string, booleanState: BooleanState } = $props();
 	let inputValue = $state(false);
@@ -16,6 +17,14 @@
 			booleanState.resetBoolean();
 		}
 	});
+
+	$effect(() => {
+		if (submitState.submit > 0) {
+			untrack(() => {
+				booleanState.submitValidate();
+			});
+		}
+	})
 
 </script>
 
