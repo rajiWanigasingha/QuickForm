@@ -12,7 +12,7 @@
 	import type { QuickFormInputs } from '$lib/types/schema.js';
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
-	import { resetForm } from '$lib/components/resetComponent.svelte.js';
+	import { loadingForm, resetForm, stopSubmit, submitState } from '$lib/components/formStatus.svelte.js';
 
 	let {
 		schema,
@@ -34,11 +34,25 @@
 		onRedirect?: () => void
 	} = $props();
 
-	const handeSubmit: SubmitFunction = ({ formData }) => {
+	const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-		console.log(formData);
+	const handeSubmit: SubmitFunction = async ({cancel}) => {
+
+		loadingForm.reload()
+		submitState.submitForm()
+
+		await sleep(1000)
+
+		if (stopSubmit.stop) {
+			cancel()
+			stopSubmit.panic()
+			loadingForm.reload()
+		}
 
 		return async ({ result, update }) => {
+
+			loadingForm.reload()
+
 			if (result.type === 'success') {
 				onSuccess();
 				await update();
@@ -78,8 +92,13 @@
 			{/each}
 			<div class="px-3 flex justify-end">
 				<button type="submit"
-								class="bg-green-500 w-75 text-white font-bold rounded-xl p-2 text-sm cursor-pointer hover:bg-green-600">
-					Submit
+								disabled={loadingForm.loading}
+								class="bg-green-500 w-75 text-white font-bold rounded-xl p-2 text-sm {!loadingForm.loading ? 'cursor-pointer hover:bg-green-600' : 'bg-green-600/80 text-white/80'} disabled:cursor-not-allowed">
+					{#if !loadingForm.loading}
+						Submit
+						{:else}
+						Processing ...
+					{/if}
 				</button>
 			</div>
 		</div>

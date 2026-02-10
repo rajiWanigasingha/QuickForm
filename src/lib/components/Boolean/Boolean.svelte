@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { BooleanState } from '$lib/components/Boolean/BooleanState.svelte.js';
-	import { resetForm } from '$lib/components/resetComponent.svelte.js';
+	import { loadingForm, resetForm } from '$lib/components/formStatus.svelte.js';
 
 	let { name, booleanState }: { name: string, booleanState: BooleanState } = $props();
 	let inputValue = $state(false);
@@ -25,12 +25,12 @@
 			<label for="{booleanState.getLabel()}" class="text-sm font-medium">{booleanState.getLabel()}</label>
 			<label for="helper" class="text-xs">{booleanState.getHelper()}</label>
 		</div>
-		<div>
+		<div class="{loadingForm.loading ? 'cursor-not-allowed blur-[0.7px]' : ''}">
 			<label class="switch">
-				<input type="checkbox" class="w-full h-full" name="{name}" bind:checked={inputValue} oninput={(e) => {
+				<input type="checkbox" class="w-full h-full" disabled={loadingForm.loading} name="{name}" bind:checked={inputValue} oninput={(e) => {
 					booleanState.setBoolean(e.currentTarget.checked)
 				}}>
-				<span class="slider round"></span>
+				<span class="slider round {loadingForm.loading ? 'cursor-not-allowed blur-[0.2px]' : 'cursor-pointer'}"></span>
 			</label>
 		</div>
 	</div>
@@ -55,7 +55,6 @@
 
     .slider {
         position: absolute;
-        cursor: pointer;
         top: 0;
         left: 0;
         right: 0;

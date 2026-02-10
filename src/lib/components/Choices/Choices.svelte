@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ChoicesState } from '$lib/components/Choices/ChoicesState.svelte.js';
-	import { resetForm } from '$lib/components/resetComponent.svelte.js';
+	import { loadingForm, resetForm } from '$lib/components/formStatus.svelte.js';
 
 	let { name, choices }: { name: string, choices: ChoicesState } = $props();
 	let inputValues = $state([] as { key: string, value: boolean }[]);
@@ -61,12 +61,12 @@
 
 	<div class="flex flex-col gap-2">
 		{#each inputValues as choice ,index (choice.key)}
-			<div class="flex flex-row justify-between items-center bg-black/10 border-black/20 border rounded-md p-2">
+			<div class="flex flex-row justify-between items-center bg-black/10 border-black/20 border rounded-md p-2 {loadingForm.loading ? 'cursor-not-allowed blur-[0.7px]' : ''}">
 				<div>
 					<p class="text-sm">{values[index].title}</p>
 					<p class="text-xs">{values[index].helper}</p>
 				</div>
-				<input type="checkbox" name="{name}" bind:checked={choice.value} onchange={(e) => checkChoices(choice.key ,e.currentTarget.checked)} id="{choice.key}">
+				<input type="checkbox" name="{name}" bind:checked={choice.value} disabled={loadingForm.loading} onchange={(e) => checkChoices(choice.key ,e.currentTarget.checked)} id="{choice.key}">
 			</div>
 		{/each}
 	</div>

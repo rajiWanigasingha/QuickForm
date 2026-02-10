@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { SelectState } from '$lib/components/Select/SelectState.svelte.js';
 	import { onMount } from 'svelte';
-	import { resetForm } from '$lib/components/resetComponent.svelte.js';
+	import { loadingForm, resetForm } from '$lib/components/formStatus.svelte.js';
 
 	let { name, select }: { name: string, select: SelectState } = $props();
 	let inputSelect = $state([] as { label: string, value: string }[]);
@@ -67,7 +67,7 @@
 	{#each inputSelect as option (option)}
 		<input type="text" name="{name}" hidden value="{option}">
 	{/each}
-	<button class="flex items-center justify-between w-full border p-2 rounded-md cursor-pointer bg-black/10 border-black/20"
+	<button disabled={loadingForm.loading} class="flex items-center justify-between w-full border p-2 rounded-md cursor-pointer bg-black/10 border-black/20 disabled:cursor-not-allowed disabled:blur-[0.7px]"
 					onclick={(e) => {
 						e.preventDefault();
 						openSelectDialog = !openSelectDialog

@@ -1,7 +1,7 @@
 <script lang="ts">
 
 	import type { NumberState } from '$lib/components/Numbers/NumberState.svelte.js';
-	import { resetForm } from '$lib/components/resetComponent.svelte.js';
+	import { loadingForm, resetForm } from '$lib/components/formStatus.svelte.js';
 
 	let { name, numberState }: { name: string, numberState: NumberState } = $props();
 	let inputValue = $state('');
@@ -36,7 +36,8 @@
 		oninput={(e) => {rejectCharacter(e.currentTarget.value)}}
 		onfocusout={() => numberState.setNumber(inputValue)}
 		placeholder={numberState.getPlaceholder()}
-		class="border rounded-md border-black/20 bg-black/10 placeholder:text-black/70 text-sm"
+		class="border rounded-md border-black/20 bg-black/10 placeholder:text-black/70 text-sm disabled:cursor-not-allowed disabled:blur-[0.7px]"
+		disabled={loadingForm.loading}
 	>
 	{#if numberState.errors === ""}
 		<label for="helper" class="text-xs font-base">{numberState.getHelper()}</label>

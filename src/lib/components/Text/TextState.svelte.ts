@@ -1,5 +1,6 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
 import type { QuickFormTextInput, QuickFormTextInputActions } from '$lib/types/schema.js';
+import { stopSubmit, submitState } from '$lib/components/formStatus.svelte.js';
 
 export class TextState extends QuickForms {
 	protected text: string | null = null;
@@ -12,6 +13,17 @@ export class TextState extends QuickForms {
 	resetText() {
 		this.text = null;
 		this.errors = ""
+	}
+
+	submitValidate() {
+		if (this.process?.validation !== undefined) {
+			try {
+				this.process.validation.isOk(this.text ?? "")
+			} catch (e : unknown) {
+				this.errors = e instanceof Error ? e.message : "Unknown error."
+				stopSubmit.panic()
+			}
+		}
 	}
 
 	setText(text: string) {
