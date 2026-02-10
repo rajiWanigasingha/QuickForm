@@ -39,7 +39,7 @@
 				<input type="checkbox" class="w-full h-full" disabled={loadingForm.loading} name="{name}" bind:checked={inputValue} oninput={(e) => {
 					booleanState.setBoolean(e.currentTarget.checked)
 				}}>
-				<span class="slider round {loadingForm.loading ? 'cursor-not-allowed blur-[0.2px]' : 'cursor-pointer'}"></span>
+				<span class="slider round {loadingForm.loading ? 'cursor-not-allowed' : 'cursor-pointer'}"></span>
 			</label>
 		</div>
 	</div>

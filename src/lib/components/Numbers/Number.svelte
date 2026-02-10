@@ -46,7 +46,7 @@
 		oninput={(e) => {rejectCharacter(e.currentTarget.value)}}
 		onfocusout={() => numberState.setNumber(inputValue)}
 		placeholder={numberState.getPlaceholder()}
-		class="border rounded-md border-black/20 bg-black/10 placeholder:text-black/70 text-sm disabled:cursor-not-allowed disabled:blur-[0.7px]"
+		class="border rounded-md border-black/20 bg-black/10 placeholder:text-black/70 text-sm disabled:cursor-not-allowed"
 		disabled={loadingForm.loading}
 	>
 	{#if numberState.errors === ""}

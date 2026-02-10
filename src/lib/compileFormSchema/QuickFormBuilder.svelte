@@ -47,7 +47,6 @@
 			cancel()
 			stopSubmit.panic()
 			loadingForm.reload()
-			console.log("hello" ,stopSubmit.stop)
 		}
 
 		return async ({ result, update }) => {

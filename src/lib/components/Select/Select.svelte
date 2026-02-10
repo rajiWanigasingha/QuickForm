@@ -75,7 +75,7 @@
 	{#each inputSelect as option (option)}
 		<input type="text" name="{name}" hidden value="{option}">
 	{/each}
-	<button disabled={loadingForm.loading} class="flex items-center justify-between w-full border p-2 rounded-md cursor-pointer bg-black/10 border-black/20 disabled:cursor-not-allowed disabled:blur-[0.7px]"
+	<button disabled={loadingForm.loading} class="flex items-center justify-between w-full border p-2 rounded-md cursor-pointer bg-black/10 border-black/20 disabled:cursor-not-allowed"
 					onclick={(e) => {
 						e.preventDefault();
 						openSelectDialog = !openSelectDialog
