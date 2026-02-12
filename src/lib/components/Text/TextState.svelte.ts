@@ -1,10 +1,11 @@
 import { QuickForms } from '$lib/components/FormStateInterface.js';
 import type { QuickFormTextInput, QuickFormTextInputActions } from '$lib/types/schema.js';
-import { stopSubmit, submitState } from '$lib/components/formStatus.svelte.js';
+import { stopSubmit } from '$lib/components/formStatus.svelte.js';
 
 export class TextState extends QuickForms {
 	protected text: string | null = null;
 	errors: string = $state("");
+	required: boolean = false;
 
 	constructor(init: QuickFormTextInput ,private process: QuickFormTextInputActions | null = null) {
 		super(init.label, init.helper, init.placeholder);
@@ -37,7 +38,7 @@ export class TextState extends QuickForms {
 
 		if (this.process?.validation !== undefined) {
 			try {
-				this.process.validation.isOk(this.text)
+				this.required = this.process.validation.isOk(this.text)
 			} catch (e : unknown) {
 				this.errors = e instanceof Error ? e.message : "Unknown error."
 				return
@@ -45,13 +46,13 @@ export class TextState extends QuickForms {
 		}
 
 		this.errors = "";
-
-		if (this.process?.postProcess !== undefined) {
-			this.text = this.process.postProcess()
-		}
 	}
 
-	getText() {
-		return this.text;
+	serverProcess(formData: string) {
+		if (this.process?.postProcess !== undefined) {
+			 return this.process.postProcess(formData)
+		} else {
+			return null
+		}
 	}
 }

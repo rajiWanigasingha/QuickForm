@@ -11,8 +11,10 @@
 	function reset() {
 		inputSelect = []
 		openSelectDialog = false
-		searchQuery = []
 		select.resetSelect()
+		searchQuery = select.getSelect().map((value) => {
+			return { selected: false, searchRank: true, value };
+		});
 	}
 
 	$effect(() => {
@@ -73,7 +75,7 @@
 <div class="flex flex-col p-3 gap-2">
 	<label for="{select.getLabel()}" class="text-sm font-medium">{select.getLabel()}</label>
 	{#each inputSelect as option (option)}
-		<input type="text" name="{name}" hidden value="{option}">
+		<input type="text" name="{name}" hidden value="{option.value}">
 	{/each}
 	<button disabled={loadingForm.loading} class="flex items-center justify-between w-full border p-2 rounded-md cursor-pointer bg-black/10 border-black/20 disabled:cursor-not-allowed"
 					onclick={(e) => {

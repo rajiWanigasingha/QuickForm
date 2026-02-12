@@ -3,6 +3,7 @@ import type { QuickFormSelectInput, QuickFormSelectInputActions, Selects } from 
 import { stopSubmit } from '$lib/components/formStatus.svelte.js';
 
 export class SelectState extends QuickForms {
+	readonly type = 'arrayOfText'
 	private readonly selectConst : Selects = []
 	protected select: Selects = [];
 	protected selectOptions: Selects = [];

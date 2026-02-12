@@ -3,6 +3,7 @@ import type { Choices, QuickFormChoiceInput, QuickFormChoiceInputActions } from 
 import { stopSubmit } from '$lib/components/formStatus.svelte.js';
 
 export class ChoicesState extends QuickForms {
+	readonly type = 'string'
 	private readonly choicesConst : Choices = [];
 	protected choices: Choices = [];
 	multiple: boolean = false;

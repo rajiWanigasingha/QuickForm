@@ -3,6 +3,7 @@ import type { QuickFormNumberInput, QuickFormNumberInputActions } from '$lib/typ
 import { stopSubmit } from '$lib/components/formStatus.svelte.js';
 
 export class NumberState extends QuickForms {
+	readonly type = 'number';
 	errors: string = $state('');
 	protected number: string | null = null;
 

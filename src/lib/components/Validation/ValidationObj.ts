@@ -1,11 +1,34 @@
 import type { Choices, Selects } from '$lib/types/schema.js';
 
-export class TextValidationObj {
+export type TextValidationBeforeRequired = {
+	required(req?: boolean,err?: string): QuickFormTextValidation;
+}
+
+export class QuickFormTextValidation {
 
 	private checks: {checker: (val: string) => boolean, err: string}[] = [];
+	private requiredField: boolean = false
+
+	private constructor() {}
+
+	static create(): TextValidationBeforeRequired {
+		return new QuickFormTextValidation();
+	}
+
+	required(req: boolean = true, err: string = "This field is required") {
+		const newObj = this.clone();
+		if (req) {
+			this.requiredField = true;
+			newObj.checks.push({
+				checker: val => val.trim().length > 0,
+				err
+			});
+		}
+		return newObj;
+	}
 
 	private clone() {
-		const newObj = new TextValidationObj();
+		const newObj = new QuickFormTextValidation();
 		newObj.checks = [...this.checks];
 		return newObj;
 	}
@@ -40,10 +63,11 @@ export class TextValidationObj {
 		return newObj;
 	}
 
-	isOk(valueOfValidation: string) {
+	isOk(valueOfValidation: string) : boolean {
 		this.checks.forEach(check => {
 			if (!check.checker(valueOfValidation)) throw new Error(check.err);
 		})
+		return this.requiredField
 	}
 }
 
@@ -169,7 +193,10 @@ export class SelectValidationObj {
 	}
 }
 
-export const QVText = new TextValidationObj();
+export class ValidationErrorResponse {
+	constructor(private fieldName: string,private errorMessage: string) {}
+}
+
 export const QVNumber = new NumberValidationObj();
 export const QVBoolean = new BooleanValidationObj();
 export const QVChoice = new ChoiceValidationObj();

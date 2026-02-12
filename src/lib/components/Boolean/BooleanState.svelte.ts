@@ -3,6 +3,7 @@ import type { QuickFormBooleanInput, QuickFormBooleanInputActions } from '$lib/t
 import { stopSubmit } from '$lib/components/formStatus.svelte.js';
 
 export class BooleanState extends QuickForms {
+	readonly type = 'boolean';
 	protected boolean: boolean = false;
 	errors: string = $state('');
 
